@@ -1,3 +1,4 @@
+*.kate*
 *.kdev*
 moc*
 *.o
