@@ -1,13 +1,23 @@
-set (SOURCES
+set (GUI_SOURCES
 	MainWindow.cpp
 	NewGameDialog.cpp
+)
+
+set (GUI_HEADERS
+	MainWindow.h
+	NewGameDialog.h
+)
+
+set (SOURCES
 	main.cpp
+	Board.cpp
+	Point.cpp
 )
 
 set (HEADERS
-	MainWindow.h
-	NewGameDialog.h
 	constants.h
+	Board.h
+	Board.cpp
 )
 
 set (FORMS
@@ -15,13 +25,14 @@ set (FORMS
 	NewGameDialog.ui
 )
 
-qt4_wrap_cpp (SOURCES ${HEADERS})
+qt4_wrap_cpp (GUI_SOURCES ${GUI_HEADERS})
 qt4_wrap_ui (FORMS ${FORMS})
 
 add_executable (przesuwanka ${SOURCES} 
-    ${HEADERS} 
-    ${FORMS}
-    #main.cpp
+	${HEADERS} 
+	${FORMS}
+	${GUI_SOURCES}
+	${GUI_HEADERS}
 )
 
 include_directories (${CMAKE_CURRENT_BINARY_DIR})
