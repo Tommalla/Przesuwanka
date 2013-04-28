@@ -1,3 +1,5 @@
+*.kdev*
 moc*
 *.o
 *~
+build/*
