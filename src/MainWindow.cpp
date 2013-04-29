@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	this->setWindowTitle(VERSION);
 	//TODO: Poprawić buttony i align na oknie nowej gry
 	this->newGameDialog.setWindowFlags(Qt::WindowCloseButtonHint);
+	
 }
 
 MainWindow::~MainWindow() {
@@ -27,7 +28,8 @@ MainWindow::~MainWindow() {
 void MainWindow::showHelp() {
 	QMessageBox msgBox;
 	msgBox.setWindowTitle("Autor");
-	msgBox.setText(VERSION + " by " + AUTHOR + "\n" + AUTHOR_MAIL + " 2013");
+	msgBox.setText("<center>" + VERSION + "<br/>" +AUTHOR + "<br/><a href=\"mailto:" + AUTHOR_MAIL + "\">" + AUTHOR_MAIL + 
+	"</a><br/>IPP 2012/2013 <a href=\"http://www.mimuw.edu.pl\">MIMUW</a></center>");
 	msgBox.exec();
 }
 
