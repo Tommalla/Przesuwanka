@@ -16,6 +16,7 @@ class Board {
 		vector<unsigned long long int> board;
 		
 		void setFieldAt(const Point& pos, const unsigned int field);
+		//inline unsigned long long int getMask, int getRow
 	public:
 		Board(int size = 4);
 		int getFieldAt(const Point& pos);
