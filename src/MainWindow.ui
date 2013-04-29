@@ -72,6 +72,7 @@
     <property name="title">
      <string>Pomoc</string>
     </property>
+    <addaction name="ActionPomoc"/>
     <addaction name="ActionAutor"/>
    </widget>
    <addaction name="MenuGra"/>
@@ -99,6 +100,11 @@
   <action name="ActionZakoncz">
    <property name="text">
     <string>Zakończ</string>
+   </property>
+  </action>
+  <action name="ActionPomoc">
+   <property name="text">
+    <string>Pomoc</string>
    </property>
   </action>
   <action name="ActionAutor">

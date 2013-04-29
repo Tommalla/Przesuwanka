@@ -10,7 +10,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	
 	//podpinanie sygnałów
 	QObject::connect(ui->ActionZakoncz, SIGNAL(triggered()), this, SLOT(close()));
-	QObject::connect(ui->ActionAutor, SIGNAL(triggered()), this, SLOT(showHelp()));
+	QObject::connect(ui->ActionPomoc, SIGNAL(triggered()), this, SLOT(showHelp()));
+	QObject::connect(ui->ActionAutor, SIGNAL(triggered()), this, SLOT(showAuthor()));
 	QObject::connect(ui->ActionNowa, SIGNAL(triggered()), &newGameDialog, SLOT(exec()));
 	
 	//Wygląd - wyśrodkowanie, tytuł itd.
@@ -25,11 +26,17 @@ MainWindow::~MainWindow() {
 	delete ui;
 }
 
-void MainWindow::showHelp() {
+void MainWindow::showAuthor() {
 	QMessageBox msgBox;
 	msgBox.setWindowTitle("Autor");
-	msgBox.setText("<center>" + VERSION + "<br/>" +AUTHOR + "<br/><a href=\"mailto:" + AUTHOR_MAIL + "\">" + AUTHOR_MAIL + 
-	"</a><br/>IPP 2012/2013 <a href=\"http://www.mimuw.edu.pl\">MIMUW</a></center>");
+	msgBox.setText(AUTHOR_MESSAGE);
+	msgBox.exec();
+}
+
+void MainWindow::showHelp() {
+	QMessageBox msgBox;
+	msgBox.setWindowTitle("Pomoc");
+	msgBox.setText(HELP_MESSAGE);
 	msgBox.exec();
 }
 
