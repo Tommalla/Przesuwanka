@@ -12,12 +12,14 @@ set (SOURCES
 	main.cpp
 	Board.cpp
 	Point.cpp
+	BitContainer.cpp
 )
 
 set (HEADERS
 	constants.h
 	Board.h
-	Board.cpp
+	Point.h
+	BitContainer.h
 )
 
 set (FORMS
