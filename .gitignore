@@ -4,3 +4,4 @@ moc*
 *.o
 *~
 build/*
+src/CodeTests/*

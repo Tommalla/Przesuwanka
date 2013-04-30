@@ -17,9 +17,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	//Wygląd - wyśrodkowanie, tytuł itd.
 	this->move(QApplication::desktop()->screen()->rect().center() - this->rect().center());
 	this->setWindowTitle(VERSION);
-	//TODO: Poprawić buttony i align na oknie nowej gry
-	this->newGameDialog.setWindowFlags(Qt::WindowCloseButtonHint);
 	
+	//TODO: Poprawić buttony i align na oknie nowej gry
+	this->newGameDialog.setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
 }
 
 MainWindow::~MainWindow() {
