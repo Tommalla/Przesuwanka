@@ -13,13 +13,16 @@ set (SOURCES
 	Board.cpp
 	Point.cpp
 	BitContainer.cpp
+	BoardGenerator.cpp
 )
 
 set (HEADERS
 	constants.h
+	enums.h
 	Board.h
 	Point.h
 	BitContainer.h
+	BoardGenerator.h
 )
 
 set (FORMS
