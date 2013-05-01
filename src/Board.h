@@ -10,6 +10,7 @@ All rights reserved */
 using namespace std;
 
 class Board {
+	friend class BoardGenerator;
 	private:
 		int size;
 		BitContainer* board;

@@ -13,11 +13,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	QObject::connect(ui->ActionPomoc, SIGNAL(triggered()), this, SLOT(showHelp()));
 	QObject::connect(ui->ActionAutor, SIGNAL(triggered()), this, SLOT(showAuthor()));
 	QObject::connect(ui->ActionNowa, SIGNAL(triggered()), &newGameDialog, SLOT(exec()));
-	
+
 	//Wygląd - wyśrodkowanie, tytuł itd.
 	this->move(QApplication::desktop()->screen()->rect().center() - this->rect().center());
 	this->setWindowTitle(VERSION);
-	
+
 	//TODO: Poprawić buttony i align na oknie nowej gry
 	this->newGameDialog.setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
 }
