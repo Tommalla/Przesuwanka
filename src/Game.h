@@ -17,7 +17,7 @@ class Game {
 		BoardGenerator boardGenerator;
 		Board* board;
 	public:
-		Game& getInstance();
+		static Game& getInstance();
 		
 		bool isMoveValid(const Point& move);
 		const Point& makeMove(const Point& move);

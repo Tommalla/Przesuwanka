@@ -41,7 +41,7 @@ void Game::reset() {
 
 void Game::newGame (const GameType& type, const int size) {
 	this->size = size;
-	boardGenerator.Init(type, size);
+	boardGenerator.init(type, size);
 	this->reset();
 	
 	this->gameInProgress = true;

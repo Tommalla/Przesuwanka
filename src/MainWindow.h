@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "NewGameDialog.h"
+#include "GameHandler.h"
 
 namespace Ui {
 	class MainWindow;
@@ -19,6 +20,7 @@ class MainWindow : public QMainWindow
 	private:
 		Ui::MainWindow *ui;
 		NewGameDialog newGameDialog;
+		GameHandler* gameHandler;
 		
 	private slots:
 		void showAuthor();

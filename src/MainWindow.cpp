@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 	//TODO: Poprawić buttony i align na oknie nowej gry
 	this->newGameDialog.setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
+	
+	gameHandler = new GameHandler(ui->GraphicsView);
 }
 
 MainWindow::~MainWindow() {

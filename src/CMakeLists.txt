@@ -15,6 +15,7 @@ set (SOURCES
 	BitContainer.cpp
 	BoardGenerator.cpp
 	Game.cpp
+	GameHandler.cpp
 )
 
 set (HEADERS
@@ -25,6 +26,7 @@ set (HEADERS
 	BitContainer.h
 	BoardGenerator.h
 	Game.h
+	GameHandler.h
 )
 
 set (FORMS
