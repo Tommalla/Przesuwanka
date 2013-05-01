@@ -26,6 +26,12 @@ class Board {
 		Board(const Board &b);
 		
 		int getFieldAt(const Point& pos);
+		/**
+		 * @brief Zwraca puste pole z otoczenia pos.
+		 * @param pos ...
+		 * @return const Point& Point(0,0), jeśli nie ma, wektor przesunięcia na którego końcu leży wolne pole w innym przypadku
+		 **/
+		const Point& getFreeFieldAround(const Point& pos);
 		
 		~Board();
 		Board& operator=(const Board &b);
