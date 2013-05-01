@@ -41,14 +41,16 @@ BoardGenerator::BoardGenerator() {
 
 BoardGenerator::BoardGenerator (const GameType& type, int size) {
 	this->size = size;
-	this->Init(type);
+	this->Init(type, size);
 }
 
 BoardGenerator::BoardGenerator (const BoardGenerator& b) {
 	this->copyToSelf(b);
 }
 
-void BoardGenerator::Init (const GameType& type) {
+void BoardGenerator::Init (const GameType& type, int size) {
+	this->size = size;
+	
 	switch(type) {
 		case RANDOM:
 			this->generateRandomBoard();

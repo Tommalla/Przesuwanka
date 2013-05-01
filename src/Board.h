@@ -10,13 +10,12 @@ All rights reserved */
 using namespace std;
 
 class Board {
-	friend class BoardGenerator;
+	//friend class BoardGenerator;
 	private:
 		int size;
 		BitContainer* board;
 		
 		void copyToSelf(const Board &b);
-		void setFieldAt(const Point& pos, const int field);
 	public:
 		/**
 		 * @brief Tworzy nową planszę o boku podanej długości
@@ -25,6 +24,7 @@ class Board {
 		Board(int size = 4);
 		Board(const Board &b);
 		
+		void setFieldAt(const Point& pos, const int field);
 		int getFieldAt(const int x, const int y);
 		/**
 		 * @brief Zwraca puste pole z otoczenia pos.

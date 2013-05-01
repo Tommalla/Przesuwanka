@@ -8,3 +8,17 @@ Point::Point(int x, int y) {
 	this->y = y;
 }
 
+Point operator+ (const Point& a, const Point& b) {
+	return Point(a.x + b.x, a.y + b.y);
+}
+
+const bool operator== (const Point& a, const Point& b) {
+	return a.x == b.x && a.y == b.y;
+}
+
+const bool operator!= (const Point& a, const Point& b) {
+	return !(a == b);
+}
+
+
+

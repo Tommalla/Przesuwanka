@@ -37,7 +37,7 @@ class BoardGenerator {
 		BoardGenerator(const GameType& type, int size);
 		BoardGenerator(const BoardGenerator &b);
 		
-		void Init(const GameType& type);
+		void Init(const GameType& type, int size);
 		
 		const vector< Point >& getSolution();
 		Board getInitialBoard();
