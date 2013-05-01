@@ -25,7 +25,7 @@ class Board {
 		Board(int size = 4);
 		Board(const Board &b);
 		
-		int getFieldAt(const Point& pos);
+		int getFieldAt(const int x, const int y);
 		/**
 		 * @brief Zwraca puste pole z otoczenia pos.
 		 * @param pos ...

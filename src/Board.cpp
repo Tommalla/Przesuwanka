@@ -37,10 +37,10 @@ Board& Board::operator= (const Board& b) {
 }
 
 
-int Board::getFieldAt (const Point& pos) {
-	assert(pos.x < this->size && pos.y < this->size);
+int Board::getFieldAt (const int x, const int y) {
+	assert(x < this->size && y < this->size);
 	
-	return this->board->getValue(this->size * pos.y + pos.x);
+	return this->board->getValue(this->size * y + x);
 }
 
 const Point& Board::getFreeFieldAround (const Point& pos) {
@@ -50,7 +50,7 @@ const Point& Board::getFreeFieldAround (const Point& pos) {
 	for (int i = 0; i < 4; ++i)
 		if (pos.x + t[i].x >= 0 && pos.x + t[i].x < this->size &&
 			pos.y + t[i].y >= 0 && pos.y + t[i].y < this->size &&
-			this->getFieldAt(Point(pos.x + t[i].x, pos.y + t[i].y)) )
+			this->getFieldAt(pos.x + t[i].x, pos.y + t[i].y) )
 			return t[i];
 			
 	return Point(0, 0);
