@@ -3,6 +3,8 @@ All rights reserved */
 
 #include <cassert>
 #include <cstddef>
+#include <ctime>
+#include <algorithm>
 #include "BoardGenerator.h"
 
 void BoardGenerator::calculateSolution() {
@@ -10,7 +12,16 @@ void BoardGenerator::calculateSolution() {
 }
 
 void BoardGenerator::generateRandomBoard() {
-	//TODO tworzenie losowej planszy i poprawianie jej jeśli nierozwiązywalna
+	this->reset();
+	
+	int t[this->size * this->size];
+	for (int i = 0; i < this->size * this->size; ++i)
+		t[i] = i;
+	random_shuffle(t, t + this->size * this->size);
+	
+	for (int i = 0; i < this->size * this->size; ++i)
+		this->initialBoard->setFieldAt(Point(i % this->size, i / this->size), t[i]);
+	//TODO poprawianie jeśli nierozwiązywalna
 }
 
 bool BoardGenerator::isBoardSolvable() {
@@ -23,7 +34,7 @@ void BoardGenerator::generateMovesBoard (int movesQty) {
 }
 
 void BoardGenerator::generateSolvedBoard() {
-	this->initialBoard = new Board(this->size);
+	this->reset();
 	
 	for (int i = 0; i < this->size * this->size - 1; ++i)
 		this->initialBoard->setFieldAt(Point(i % this->size, i / this->size), i + 1);
@@ -33,6 +44,12 @@ void BoardGenerator::copyToSelf (const BoardGenerator& b) {
 	this->initialized = b.initialized;
 	this->initialBoard = new Board(*b.initialBoard);
 }
+
+void BoardGenerator::reset() {
+	delete this->initialBoard;
+	this->initialBoard = new Board(this->size);
+}
+
 
 BoardGenerator::BoardGenerator() {
 	this->initialized = false;

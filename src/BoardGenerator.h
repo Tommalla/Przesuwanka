@@ -32,6 +32,7 @@ class BoardGenerator {
 		void generateSolvedBoard();
 
 		void copyToSelf (const BoardGenerator& b);
+		void reset();
 	public:
 		BoardGenerator();
 		BoardGenerator (const GameType& type, int size);
