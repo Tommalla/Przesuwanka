@@ -21,7 +21,7 @@ bool Game::isMoveValid (const Point& move) {
 	return this->board->getFreeFieldAround(move) != Point(0, 0);
 }
 
-const Point& Game::makeMove (const Point& move) {
+const Point Game::makeMove (const Point& move) {
 	Point res = board->getFreeFieldAround(move);
 	
 	assert(board->getFieldAt(move.x + res.x, move.y + res.y) == 0);
@@ -31,6 +31,7 @@ const Point& Game::makeMove (const Point& move) {
 	board->setFieldAt(move + res, tmp);
 
 	this->isGameFinished();
+	return res;
 }
 
 void Game::reset() {

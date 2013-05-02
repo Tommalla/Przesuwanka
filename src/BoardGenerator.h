@@ -45,7 +45,6 @@ class BoardGenerator {
 
 		~BoardGenerator();
 		BoardGenerator& operator= (const BoardGenerator& b);
-
 };
 
 #endif // BOARDGENERATOR_H
