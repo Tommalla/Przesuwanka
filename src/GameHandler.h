@@ -4,12 +4,15 @@ All rights reserved */
 #ifndef GAMEHANDLER_H
 #define GAMEHANDLER_H
 #include <QGraphicsView>
+#include "GraphicsScene.h"
 #include "enums.h"
+#include "GraphicsTile.h"
 
 class GameHandler {
 	private:
 		QGraphicsView* graphicsView;
-		QGraphicsScene* scene;
+		GraphicsScene* scene;
+		GraphicsTile* tiles;
 		int size;
 	public:
 		GameHandler(QGraphicsView* graphicsView);
@@ -17,7 +20,6 @@ class GameHandler {
 		void newGame(const GameType& type, int size);
 		void drawBoard();
 		~GameHandler();
-		//TODO handlery do kliknięć i keyEventów
 };
 
 #endif // GAMEHANDLER_H

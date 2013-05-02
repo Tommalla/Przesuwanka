@@ -7,7 +7,7 @@ All rights reserved */
 GameHandler::GameHandler(QGraphicsView* graphicsView) {
 	this->graphicsView = graphicsView;
 	
-	this->scene = new QGraphicsScene();
+	this->scene = new GraphicsScene();
 	this->graphicsView->setScene(this->scene);
 }
 

@@ -16,6 +16,8 @@ set (SOURCES
 	BoardGenerator.cpp
 	Game.cpp
 	GameHandler.cpp
+	GraphicsScene.cpp
+	GraphicsTile.cpp
 )
 
 set (HEADERS
@@ -27,6 +29,8 @@ set (HEADERS
 	BoardGenerator.h
 	Game.h
 	GameHandler.h
+	GraphicsScene.h
+	GraphicsTile.h
 )
 
 set (FORMS
