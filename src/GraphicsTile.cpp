@@ -2,24 +2,40 @@
 All rights reserved */
 
 #include <QPainter>
+#include <ctime>
 #include "GraphicsTile.h"
 #include "GameHandler.h"
 
 void GraphicsTile::generatePixmap() {
-	QPixmap pixmap(parent->getView()->width() / parent->getSize(), parent->getView()->height() / parent->getSize());
+	qDebug("generatePixmap for number %d\n", number);
+	int tileSize = min(parent->getView()->width(), parent->getView()->height());
+	tileSize /= parent->getSize();
+	
+	qDebug("\tviewSize: %d x %d => tileSize = %d\n\ttile: %d, %d, %d, %d\n", parent->getView()->width(), parent->getView()->height(), 
+	       tileSize, 
+	       tileSize * this->relativePosition.x, tileSize * this->relativePosition.y,
+	       tileSize * (this->relativePosition.x + 1), tileSize * (this->relativePosition.y + 1) );
+	
+	QPixmap pixmap(tileSize, tileSize);
 	QPainter painter(&pixmap);
 	
-	painter.fillRect(QRect(0, 0, pixmap.width(), pixmap.height()), QColor(rand() % 256, rand() % 256, rand() % 256, rand() % 256));
+	int r = rand() % 256;
+	int g = rand() % 256;
+	int b = rand() % 256;
+	qDebug("\tColor: %d %d %d\n", r, g, b);
 	
-	painter.end();
+	painter.fillRect(QRect(0, 0, tileSize, tileSize), 
+			       QColor(r, g, b));
 	
 	this->setPixmap(pixmap);
+	this->setOffset(this->relativePosition.x * tileSize, this->relativePosition.y * tileSize);
 }
 
 
-GraphicsTile::GraphicsTile (GameHandler* parent, const int number) : QGraphicsPixmapItem() {
+GraphicsTile::GraphicsTile (GameHandler* parent, const int number, const Point relativePosition) : QGraphicsPixmapItem() {
 	this->parent = parent;
 	this->number = number;
+	this->relativePosition = relativePosition;
 	
 	this->generatePixmap();
 }
