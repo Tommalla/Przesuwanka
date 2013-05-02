@@ -46,6 +46,7 @@ void BoardGenerator::copyToSelf (const BoardGenerator& b) {
 }
 
 void BoardGenerator::reset() {
+	srand(time(NULL));
 	delete this->initialBoard;
 	this->initialBoard = new Board(this->size);
 }

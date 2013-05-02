@@ -22,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	this->newGameDialog.setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
 	
 	gameHandler = new GameHandler(ui->GraphicsView);
+	
+	//tymczasowo
+	gameHandler->newGame(EASY, 4);
 }
 
 MainWindow::~MainWindow() {
