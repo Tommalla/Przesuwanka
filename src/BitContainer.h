@@ -33,8 +33,6 @@ class BitContainer {
 		
 		void setValue(const int id, int value);
 		int getValue(const int id);
-		
-		//TODO operator[]
 };
 
 #endif // BITCONTAINER_H

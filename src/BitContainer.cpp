@@ -30,17 +30,17 @@ long long unsigned int BitContainer::getClearMask (const int begin, const int en
 
 int BitContainer::getBits (const int row, const int begin, const int end) {
 	unsigned long long int mask = ~this->getClearMask(begin, end);
-	printf("\tgetBits(row = %d, begin = %d, end = %d)\n", row, begin, end);
-	printf("mask = %s\n", bitset<64>(mask).to_string<char,char_traits<char>,allocator<char> >().c_str());
+// 	printf("\tgetBits(row = %d, begin = %d, end = %d)\n", row, begin, end);
+// 	printf("mask = %s\n", bitset<64>(mask).to_string<char,char_traits<char>,allocator<char> >().c_str());
 	mask &= container[row];
-	printf("mask = %s\n", bitset<64>(mask).to_string<char,char_traits<char>,allocator<char> >().c_str());
-	puts("Done(getBits)");
+// 	printf("mask = %s\n", bitset<64>(mask).to_string<char,char_traits<char>,allocator<char> >().c_str());
+// 	puts("Done(getBits)");
 	return mask / pow(2, (long double)this->bitsPerInt - end);//(container[row] - (ULLONG_MAX - (pow(2.0, (long double)this->bitsPerInt - begin) - 1))) /
 		//pow(2, (long double)this->bitsPerInt - end);
 }
 
 void BitContainer::setBits (const int row, const int begin, const int end, const int value) {
-	qDebug("\tsetBits(row=%d, begin=%d, end=%d, value=%d)\n", row, begin, end, value);
+// 	qDebug("\tsetBits(row=%d, begin=%d, end=%d, value=%d)\n", row, begin, end, value);
 	
 	unsigned long long int clearMask = this->getClearMask(begin, end);
 	unsigned long long int mask = this->getMask(begin, end, value);
@@ -92,13 +92,13 @@ int BitContainer::getValue (const int id) {
 	int end = min(begin + this->bitsPerValue, this->bitsPerInt);
 	
 	int result = this->getBits(row, begin, end);
-	printf("result = %s\n", bitset<64>(result).to_string<char,char_traits<char>,allocator<char> >().c_str());
+// 	printf("result = %s\n", bitset<64>(result).to_string<char,char_traits<char>,allocator<char> >().c_str());
 	
 	if (end - begin == this->bitsPerValue)
 		return result;
 	
 	result <<= this->bitsPerValue - (end - begin);
-	printf("result = %s\n", bitset<64>(result).to_string<char,char_traits<char>,allocator<char> >().c_str());
+// 	printf("result = %s\n", bitset<64>(result).to_string<char,char_traits<char>,allocator<char> >().c_str());
 	row++;
 	end = this->bitsPerValue - end + begin;
 	begin = 0;
