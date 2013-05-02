@@ -20,7 +20,7 @@ void Board::setFieldAt (const Point& pos, const int field) {
 
 Board::Board (int size) {
 	this->size = size;
-	this->board = new BitContainer(size * size, size);
+	this->board = new BitContainer(size * size, size * size);
 }
 
 Board::Board (const Board& b) {

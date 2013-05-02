@@ -3,7 +3,7 @@ All rights reserved */
 #include <cmath>
 #include <climits>
 #include <cassert>
-//#include <QDebug>
+#include <QDebug>
 #include <cstdio>
 #include <bitset>
 #include "BitContainer.h"
@@ -40,7 +40,7 @@ int BitContainer::getBits (const int row, const int begin, const int end) {
 }
 
 void BitContainer::setBits (const int row, const int begin, const int end, const int value) {
-	printf("\tsetBits(row=%d, begin=%d, end=%d, value=%d)\n", row, begin, end, value);
+	qDebug("\tsetBits(row=%d, begin=%d, end=%d, value=%d)\n", row, begin, end, value);
 	
 	unsigned long long int clearMask = this->getClearMask(begin, end);
 	unsigned long long int mask = this->getMask(begin, end, value);
@@ -51,6 +51,7 @@ void BitContainer::setBits (const int row, const int begin, const int end, const
 
 
 BitContainer::BitContainer (int size, int maxValue) {
+	qDebug("Konstruktor BitContainer:\n\tsize = %d, maxValue = %d\n", size, maxValue);
 	this->size = size;
 	this->maxValue = maxValue;
 	
