@@ -4,7 +4,6 @@ All rights reserved */
 #ifndef GRAPHICSTILE_H
 #define GRAPHICSTILE_H
 #include <QGraphicsPixmapItem>
-//#include "GameHandler.h"
 
 class GameHandler;
 
