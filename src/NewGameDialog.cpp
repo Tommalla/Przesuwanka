@@ -6,14 +6,14 @@ NewGameDialog::NewGameDialog(QWidget *parent) : QDialog(parent), ui(new Ui::NewG
 }
 
 const GameType NewGameDialog::getGameType() {
-	if (ui->RandomRadioButton->isChecked())
-		return RANDOM;
 	if (ui->EasyRadioButton->isChecked())
 		return EASY;
 	if (ui->MediumRadioButton->isChecked())
 		return MEDIUM;
 	if (ui->HardRadioButton->isChecked())
 		return HARD;
+	
+	return RANDOM;
 }
 
 
