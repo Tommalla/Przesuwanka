@@ -25,6 +25,7 @@ class MainWindow : public QMainWindow
 	private slots:
 		void showAuthor();
 		void showHelp();
+		void newGame();
 
 };
 

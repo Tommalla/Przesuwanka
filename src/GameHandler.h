@@ -21,9 +21,9 @@ class GameHandler {
 		GameHandler(QGraphicsView* graphicsView);
 		
 		void newGame(const GameType& type, int size);
-		void drawBoard();
 		
 		const QGraphicsView* getView() const;
+		const GraphicsScene* getScene() const;
 		const int getSize() const;
 		~GameHandler();
 };

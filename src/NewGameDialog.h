@@ -2,6 +2,7 @@
 #define NEWGAMEDIALOG_H
 
 #include <QDialog>
+#include "enums.h"
 
 namespace Ui {
 	class NewGameDialog;
@@ -14,6 +15,7 @@ class NewGameDialog : public QDialog
 	public:
 		explicit NewGameDialog(QWidget *parent = 0);
 		~NewGameDialog();
+		const GameType getGameType();
     
 	private:
 		Ui::NewGameDialog *ui;

@@ -13,18 +13,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	QObject::connect(ui->ActionPomoc, SIGNAL(triggered()), this, SLOT(showHelp()));
 	QObject::connect(ui->ActionAutor, SIGNAL(triggered()), this, SLOT(showAuthor()));
 	QObject::connect(ui->ActionNowa, SIGNAL(triggered()), &newGameDialog, SLOT(exec()));
+	QObject::connect(&newGameDialog, SIGNAL(accepted()), this, SLOT(newGame()));
 
 	//Wygląd - wyśrodkowanie, tytuł itd.
 	this->move(QApplication::desktop()->screen()->rect().center() - this->rect().center());
 	this->setWindowTitle(VERSION);
 
 	//TODO: Poprawić buttony i align na oknie nowej gry
-	this->newGameDialog.setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
+	//this->newGameDialog.setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
 	
 	gameHandler = new GameHandler(ui->GraphicsView);
-	
-	//tymczasowo
-	gameHandler->newGame(EASY, 4);
 }
 
 MainWindow::~MainWindow() {
@@ -44,6 +42,16 @@ void MainWindow::showHelp() {
 	msgBox.setText(HELP_MESSAGE);
 	msgBox.exec();
 }
+
+void MainWindow::newGame() {
+	qDebug("MainWindow::newGame()\n");
+	
+	GameType type = newGameDialog.getGameType();
+	
+	qDebug("\ttype = %d\n", type);
+	gameHandler->newGame(type, boardSize);
+}
+
 
 
 

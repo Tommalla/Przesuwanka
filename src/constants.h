@@ -12,5 +12,7 @@ const QString HELP_MESSAGE = QString("<center> Ktoś był na tyle \"sprytny\", �
 	QString("\"Grę w 15-tkę\" lub \"The game of 15\".<br/> Po krótce: Twoim zadaniem jest doprowadzić planszę do stanu, w ") +
 	QString("którym liczby będą kolejno uporządkowane wierszami.<br/>Więcej szczegółów: ") +
 	QString("<a href=\"http://pl.wikipedia.org/wiki/Piętnastka_(układanka)\">Wikipedia</a><br/></center>Klawiszologia:<br/>");
+	
+const int boardSize = 4;
 
 #endif

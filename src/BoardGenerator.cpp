@@ -105,9 +105,3 @@ BoardGenerator& BoardGenerator::operator= (const BoardGenerator& b) {
 	this->copyToSelf(b);
 	return *this;
 }
-
-
-
-
-
-
