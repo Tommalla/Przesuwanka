@@ -11,7 +11,8 @@ All rights reserved */
 
 using namespace std;
 
-class GameHandler {
+class GameHandler : public QObject {
+	Q_OBJECT;
 	private:
 		QGraphicsView* graphicsView;
 		GraphicsScene* scene;
@@ -25,7 +26,10 @@ class GameHandler {
 		const QGraphicsView* getView() const;
 		const GraphicsScene* getScene() const;
 		const int getSize() const;
+		void registerMove();
 		~GameHandler();
+	signals:
+		void moveMade();
 };
 
 #endif // GAMEHANDLER_H

@@ -8,6 +8,14 @@ set (GUI_HEADERS
 	NewGameDialog.h
 )
 
+set (MOC_SOURCES
+	GameHandler.cpp
+)
+
+set (MOC_HEADERS
+	GameHandler.h
+)
+
 set (SOURCES
 	main.cpp
 	Board.cpp
@@ -15,7 +23,6 @@ set (SOURCES
 	BitContainer.cpp
 	BoardGenerator.cpp
 	Game.cpp
-	GameHandler.cpp
 	GraphicsScene.cpp
 	GraphicsTile.cpp
 )
@@ -28,7 +35,6 @@ set (HEADERS
 	BitContainer.h
 	BoardGenerator.h
 	Game.h
-	GameHandler.h
 	GraphicsScene.h
 	GraphicsTile.h
 )
@@ -39,6 +45,7 @@ set (FORMS
 )
 
 qt4_wrap_cpp (GUI_SOURCES ${GUI_HEADERS})
+qt4_wrap_cpp (MOC_SOURCES ${MOC_HEADERS})
 qt4_wrap_ui (FORMS ${FORMS})
 
 add_executable (przesuwanka ${SOURCES} 
@@ -46,6 +53,8 @@ add_executable (przesuwanka ${SOURCES}
 	${FORMS}
 	${GUI_SOURCES}
 	${GUI_HEADERS}
+	${MOC_SOURCES}
+	${MOC_HEADERS}
 )
 
 include_directories (${CMAKE_CURRENT_BINARY_DIR})

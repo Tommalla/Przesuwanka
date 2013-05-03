@@ -4,16 +4,10 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "constants.h"
+#include "Game.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
-	
-	//podpinanie sygnałów
-	QObject::connect(ui->ActionZakoncz, SIGNAL(triggered()), this, SLOT(close()));
-	QObject::connect(ui->ActionPomoc, SIGNAL(triggered()), this, SLOT(showHelp()));
-	QObject::connect(ui->ActionAutor, SIGNAL(triggered()), this, SLOT(showAuthor()));
-	QObject::connect(ui->ActionNowa, SIGNAL(triggered()), &newGameDialog, SLOT(exec()));
-	QObject::connect(&newGameDialog, SIGNAL(accepted()), this, SLOT(newGame()));
 
 	//Wygląd - wyśrodkowanie, tytuł itd.
 	this->move(QApplication::desktop()->screen()->rect().center() - this->rect().center());
@@ -23,6 +17,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	//this->newGameDialog.setWindowFlags(Qt::Dialog | Qt::WindowCloseButtonHint);
 	
 	gameHandler = new GameHandler(ui->GraphicsView);
+	
+	//podpinanie sygnałów
+	QObject::connect(ui->ActionZakoncz, SIGNAL(triggered()), this, SLOT(close()));
+	QObject::connect(ui->ActionPomoc, SIGNAL(triggered()), this, SLOT(showHelp()));
+	QObject::connect(ui->ActionAutor, SIGNAL(triggered()), this, SLOT(showAuthor()));
+	QObject::connect(ui->ActionNowa, SIGNAL(triggered()), &newGameDialog, SLOT(exec()));
+	QObject::connect(&newGameDialog, SIGNAL(accepted()), this, SLOT(newGame()));
+	QObject::connect(this->gameHandler, SIGNAL(moveMade()), this, SLOT(updateCounter()));
 }
 
 MainWindow::~MainWindow() {
@@ -51,6 +53,11 @@ void MainWindow::newGame() {
 	qDebug("\ttype = %d\n", type);
 	gameHandler->newGame(type, boardSize);
 }
+
+void MainWindow::updateCounter() {
+	this->statusBar()->showMessage("Ilość ruchów: " + QString::number(Game::getInstance().getMovesCount()));
+}
+
 
 
 

@@ -43,14 +43,14 @@ int Board::getFieldAt (const int x, const int y) {
 	return this->board->getValue(this->size * y + x);
 }
 
-const Point& Board::getFreeFieldAround (const Point& pos) {
+const Point Board::getFreeFieldAround (const Point& pos) {
 	assert(pos.x < this->size && pos.y < this->size);
 	
 	Point t[4] = {Point(-1, 0), Point(1, 0), Point(0, -1), Point(0, 1)};
 	for (int i = 0; i < 4; ++i)
 		if (pos.x + t[i].x >= 0 && pos.x + t[i].x < this->size &&
 			pos.y + t[i].y >= 0 && pos.y + t[i].y < this->size &&
-			this->getFieldAt(pos.x + t[i].x, pos.y + t[i].y) )
+			this->getFieldAt(pos.x + t[i].x, pos.y + t[i].y) == 0 )
 			return t[i];
 			
 	return Point(0, 0);

@@ -26,6 +26,7 @@ class MainWindow : public QMainWindow
 		void showAuthor();
 		void showHelp();
 		void newGame();
+		void updateCounter();
 
 };
 

@@ -30,9 +30,15 @@ const Point Game::makeMove (const Point& move) {
 	board->setFieldAt(move, 0);
 	board->setFieldAt(move + res, tmp);
 
+	this->movesCount++;
 	this->isGameFinished();
 	return res;
 }
+
+const Point Game::getMoveFor (const Point& pos) {
+	return board->getFreeFieldAround(pos);
+}
+
 
 void Game::reset() {
 	delete this->board;

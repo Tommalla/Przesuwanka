@@ -10,11 +10,12 @@ class GameHandler;
 
 class GraphicsTile : public QGraphicsPixmapItem {
 	private:
-		int number;
+		int number, tileSize;
 		GameHandler* parent;
 		Point relativePosition;
 		
 		void generatePixmap();
+		void mousePressEvent ( QGraphicsSceneMouseEvent * event );
 	public:
 		GraphicsTile(GameHandler* parent, const int number, const Point relativePosition);
 };

@@ -5,10 +5,22 @@ All rights reserved */
 #include <ctime>
 #include "GraphicsTile.h"
 #include "GameHandler.h"
+#include "Game.h"
+
+void GraphicsTile::mousePressEvent (QGraphicsSceneMouseEvent* event) {
+	//QGraphicsItem::mousePressEvent (event);
+	if( Game::getInstance().isMoveValid(this->relativePosition)) {
+		Point move = Game::getInstance().makeMove(this->relativePosition);
+		this->relativePosition  = this->relativePosition + move;
+		this->setOffset(relativePosition.x * tileSize, relativePosition.y * tileSize);
+		
+		this->parent->registerMove();
+	}
+}
 
 void GraphicsTile::generatePixmap() {
 	qDebug("generatePixmap for number %d\n", number);
-	int tileSize = min(parent->getScene()->width(), parent->getScene()->height());
+	tileSize = min(parent->getScene()->width(), parent->getScene()->height());
 	tileSize /= parent->getSize();
 	
 	qDebug("\tsceneSize: %i x %i => tileSize = %d\n\ttile: %d, %d, %d %d\n", parent->getScene()->width(), parent->getScene()->height(), 

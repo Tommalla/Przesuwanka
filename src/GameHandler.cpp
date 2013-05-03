@@ -14,10 +14,13 @@ GameHandler::GameHandler(QGraphicsView* graphicsView) {
 
 void GameHandler::newGame(const GameType& type, int size) {
 	qDebug("GameHandler::NewGame\n\ttype = %d, size = %d\n", type, size);
+	
 	this->size = size;
+	this->scene->clear();
+	this->scene->setSceneRect(QRect(0, 0, this->graphicsView->viewport()->width(), this->graphicsView->viewport()->height()));
+	
 	Game::getInstance().newGame(type, size);
 	
-	this->scene->setSceneRect(QRect(0, 0, this->graphicsView->viewport()->width(), this->graphicsView->viewport()->height()));
 	
 	qDebug("graphicsView: geometry: %d %d %d %d, viewport: %d %d %d %d, frame: %d %d %d %d\n",
 		this->graphicsView->geometry().x(), this->graphicsView->geometry().y(), this->graphicsView->geometry().width(),
@@ -30,7 +33,6 @@ void GameHandler::newGame(const GameType& type, int size) {
 		for (int y = 0; y < this->size; ++y)
 			if (Game::getInstance().getFieldAt(x, y) != 0)
 				this->scene->addItem(new GraphicsTile(this, Game::getInstance().getFieldAt(x, y), Point(x, y)));
-			
 }
 
 const QGraphicsView* GameHandler::getView() const {
@@ -44,6 +46,9 @@ const GraphicsScene* GameHandler::getScene() const {
 	return this->scene;
 }
 
+void GameHandler::registerMove() {
+	emit moveMade();
+}
 
 GameHandler::~GameHandler() {
 	delete this->scene;

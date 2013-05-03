@@ -21,6 +21,7 @@ class Game {
 		
 		bool isMoveValid(const Point& move);
 		const Point makeMove(const Point& move);
+		const Point getMoveFor(const Point& pos);
 		
 		/**
 		 * @brief Przywraca pierwotny stan planszy przed ruchami gracza
