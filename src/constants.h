@@ -14,5 +14,6 @@ const QString HELP_MESSAGE = QString("<center> Ktoś był na tyle \"sprytny\", �
 	QString("<a href=\"http://pl.wikipedia.org/wiki/Piętnastka_(układanka)\">Wikipedia</a><br/></center>Klawiszologia:<br/>");
 	
 const int boardSize = 4;
+const int animationTime = 100;
 
 #endif

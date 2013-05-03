@@ -48,6 +48,8 @@ const GraphicsScene* GameHandler::getScene() const {
 
 void GameHandler::registerMove() {
 	emit moveMade();
+	if (Game::getInstance().isGameFinished())
+		qDebug("Wygrana!");
 }
 
 GameHandler::~GameHandler() {

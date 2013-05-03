@@ -6,16 +6,22 @@ All rights reserved */
 #include "GraphicsTile.h"
 #include "GameHandler.h"
 #include "Game.h"
+#include "constants.h"
 
 void GraphicsTile::mousePressEvent (QGraphicsSceneMouseEvent* event) {
 	//QGraphicsItem::mousePressEvent (event);
 	if( Game::getInstance().isMoveValid(this->relativePosition)) {
 		Point move = Game::getInstance().makeMove(this->relativePosition);
 		this->relativePosition  = this->relativePosition + move;
-		this->setOffset(relativePosition.x * tileSize, relativePosition.y * tileSize);
+		
+		this->animation.setDuration(animationTime);
+		this->animation.setEndValue(QPoint(relativePosition.x * tileSize, relativePosition.y * tileSize));
+		this->animation.start();
 		
 		this->parent->registerMove();
 	}
+	else
+		qDebug("Niepoprawny ruch!");
 }
 
 void GraphicsTile::generatePixmap() {
@@ -55,7 +61,12 @@ GraphicsTile::GraphicsTile (GameHandler* parent, const int number, const Point r
 	this->relativePosition = relativePosition;
 	
 	this->generatePixmap();
+	
+	QObject* obj = dynamic_cast<QObject*>(this);
+	this->animation.setTargetObject(this);
+	this->animation.setPropertyName("offset");
 }
+
 
 
 
