@@ -71,7 +71,7 @@ void BitContainer::setValue (const int id, int value) {
 // 	 "; mask = " << mask << "; clearMask = " << clearMask << "\n";
 	this->setBits(row, begin, end, value >> (this->bitsPerValue - end + begin));
 	
-	printf("DBG %d\n", this->bitsPerValue - end + begin);
+	//printf("DBG %d\n", this->bitsPerValue - end + begin);
 	
 	if (end - begin == this->bitsPerValue)
 		return;
@@ -104,4 +104,11 @@ int BitContainer::getValue (const int id) {
 	begin = 0;
 	
 	return result + this->getBits(row, begin, end);
+}
+
+const QString BitContainer::getHash() {
+	QString res = "";
+	for (int i = 0; i < this->container.size(); ++i)
+		res += QString::number(this->container[i]);
+	return res;
 }

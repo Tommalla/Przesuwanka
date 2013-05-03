@@ -4,6 +4,7 @@ All rights reserved */
 #ifndef BITCONTAINER_H
 #define BITCONTAINER_H
 #include <vector>
+#include <QString>
 
 using namespace std;
 
@@ -33,6 +34,7 @@ class BitContainer {
 		
 		void setValue(const int id, int value);
 		int getValue(const int id);
+		const QString getHash();
 };
 
 #endif // BITCONTAINER_H

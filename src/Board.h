@@ -3,6 +3,7 @@ All rights reserved */
 #ifndef BOARD_H
 #define BOARD_H
 #include <vector>
+#include <QString>
 
 #include "Point.h"
 #include "BitContainer.h"
@@ -32,6 +33,8 @@ class Board {
 		 * @return const Point& Point(0,0), jeśli nie ma, wektor przesunięcia na którego końcu leży wolne pole w innym przypadku
 		 **/
 		const Point getFreeFieldAround(const Point& pos);
+		const int countInversions() const;
+		const QString getHash();
 		
 		~Board();
 		Board& operator=(const Board &b);

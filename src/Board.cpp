@@ -55,3 +55,20 @@ const Point Board::getFreeFieldAround (const Point& pos) {
 			
 	return Point(0, 0);
 }
+
+const int Board::countInversions() const {
+	//napałowo, bo mało
+	int res = 0;
+	for (int i = 0; i < this->size * this->size; ++i) {
+		int elem = this->board->getValue(i);
+		if (elem != 0)
+			for (int j = 0; j < i; ++j)
+				if (this->board->getValue(j) > elem)
+					++res;
+	}
+	return res;
+}
+
+const QString Board::getHash() {
+	return this->board->getHash();
+}
