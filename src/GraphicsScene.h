@@ -10,6 +10,7 @@ class GraphicsScene : public QGraphicsScene {
 	//QOBJECT;
 	protected:
 		virtual void keyReleaseEvent (QKeyEvent* event);
+		virtual void mousePressEvent (QGraphicsSceneMouseEvent * event);
 };
 
 #endif // GRAPHICSSCENE_H

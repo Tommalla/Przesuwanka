@@ -4,6 +4,9 @@ All rights reserved */
 #ifndef GAME_H
 #define GAME_H
 #include "BoardGenerator.h"
+#include <list>
+
+using namespace std;
 
 class Game {
 	private:
@@ -16,11 +19,18 @@ class Game {
 		
 		BoardGenerator boardGenerator;
 		Board* board;
+		list<Point> movesHistory;
 	public:
 		static Game& getInstance();
 		
 		bool isMoveValid(const Point& move);
 		const Point makeMove(const Point& move);
+		/**
+		 * @brief Zwraca pozycję ostatnio poruszonego pola
+		 * @return Point, jeśli jest jakiś ruch w historii, (-1, -1), jeśli nie ma
+		 **/
+		const Point getLastMoved();
+		const Point undoLastMove();
 		const Point getMoveFor(const Point& pos);
 		
 		/**

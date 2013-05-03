@@ -1,33 +1,55 @@
 /* Tomasz [Tommalla] Zakrzewski, 2013
 All rights reserved */
-
 #include <QPainter>
+#include <QGraphicsSceneEvent>
 #include <ctime>
+#include <cassert>
 #include "GraphicsTile.h"
 #include "GameHandler.h"
 #include "Game.h"
 #include "constants.h"
 
+
+const Point GraphicsTile::getRelativePosition() {
+	return relativePosition;
+}
+
 void GraphicsTile::mousePressEvent (QGraphicsSceneMouseEvent* event) {
-	//QGraphicsItem::mousePressEvent (event);
-	if( Game::getInstance().isMoveValid(this->relativePosition)) {
-		Point move = Game::getInstance().makeMove(this->relativePosition);
-		this->relativePosition  = this->relativePosition + move;
-		
-		this->animation.setDuration(animationTime);
-		this->animation.setEndValue(QPoint(relativePosition.x * tileSize, relativePosition.y * tileSize));
-		this->animation.start();
-		
-		this->parent->registerMove();
-	}
-	else
-		qDebug("Niepoprawny ruch!");
+	Point move;
+	if (event->button() == Qt::LeftButton) {
+		if (Game::getInstance().isMoveValid(this->relativePosition))
+			move = Game::getInstance().makeMove(this->relativePosition);
+		else {
+			qDebug("Niepoprawny ruch!");
+			return;
+		}
+	} else if (event->button() == Qt::RightButton) {
+		qDebug("Right button at tile %d %d", this->relativePosition.x, this->relativePosition.y);
+		Point p = Game::getInstance().getLastMoved();
+		if (Game::getInstance().getLastMoved() == Point(-1, -1))
+			return;
+		if (Game::getInstance().getLastMoved() != this->relativePosition) {
+			event->ignore();
+			return;
+		}
+		//assert(Game::getInstance().getLastMoved() == this->relativePosition);
+		move = Game::getInstance().undoLastMove();
+	} else
+		return;
+	
+	this->relativePosition  = this->relativePosition + move;
+	
+	this->animation.setDuration(animationTime);
+	this->animation.setEndValue(QPoint(relativePosition.x * tileSize, relativePosition.y * tileSize));
+	this->animation.start();
+	
+	this->parent->registerMove();
 }
 
 void GraphicsTile::generatePixmap() {
 	qDebug("generatePixmap for number %d\n", number);
 	tileSize = min(parent->getScene()->width(), parent->getScene()->height());
-	tileSize /= parent->getSize();
+	tileSize /= parent->getSize();	//rozmiar sceny/ilość klocków
 	
 	qDebug("\tsceneSize: %i x %i => tileSize = %d\n\ttile: %d, %d, %d %d\n", parent->getScene()->width(), parent->getScene()->height(), 
 	       tileSize, 
@@ -62,7 +84,6 @@ GraphicsTile::GraphicsTile (GameHandler* parent, const int number, const Point r
 	
 	this->generatePixmap();
 	
-	QObject* obj = dynamic_cast<QObject*>(this);
 	this->animation.setTargetObject(this);
 	this->animation.setPropertyName("offset");
 }
