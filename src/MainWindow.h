@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
 	public:
 		explicit MainWindow(QWidget *parent = 0);
 		~MainWindow();
+		void show();
 	private:
 		Ui::MainWindow *ui;
 		NewGameDialog newGameDialog;
@@ -26,7 +27,7 @@ class MainWindow : public QMainWindow
 		void showAuthor();
 		void showHelp();
 		void newGame();
-		void updateCounter();
+		void reactToMove();
 
 };
 

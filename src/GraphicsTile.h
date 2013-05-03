@@ -19,6 +19,7 @@ class GraphicsTile : public QObject, public QGraphicsPixmapItem {
 		GameHandler* parent;
 		Point relativePosition;
 		QPropertyAnimation animation;
+		QColor color;
 		
 		void generatePixmap();
 	public:

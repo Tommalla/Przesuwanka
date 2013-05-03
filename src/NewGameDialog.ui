@@ -50,7 +50,7 @@
       <item>
        <widget class="QRadioButton" name="HardRadioButton">
         <property name="text">
-         <string>RadioButton</string>
+         <string>Trudny</string>
         </property>
        </widget>
       </item>

@@ -1,5 +1,6 @@
 #include <QDesktopWidget>
 #include <QMessageBox>
+#include <ctime>
 
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
@@ -7,6 +8,8 @@
 #include "Game.h"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+	srand(time(NULL));
+	
 	ui->setupUi(this);
 
 	//Wygląd - wyśrodkowanie, tytuł itd.
@@ -24,8 +27,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	QObject::connect(ui->ActionAutor, SIGNAL(triggered()), this, SLOT(showAuthor()));
 	QObject::connect(ui->ActionNowa, SIGNAL(triggered()), &newGameDialog, SLOT(exec()));
 	QObject::connect(&newGameDialog, SIGNAL(accepted()), this, SLOT(newGame()));
-	QObject::connect(this->gameHandler, SIGNAL(moveMade()), this, SLOT(updateCounter()));
+	QObject::connect(this->gameHandler, SIGNAL(moveMade()), this, SLOT(reactToMove()));
 }
+
+void MainWindow::show() {
+	QMainWindow::show();
+	this->gameHandler->newGame(RANDOM, boardSize);
+}
+
 
 MainWindow::~MainWindow() {
 	delete ui;
@@ -51,11 +60,19 @@ void MainWindow::newGame() {
 	GameType type = newGameDialog.getGameType();
 	
 	qDebug("\ttype = %d\n", type);
+	this->ui->GraphicsView->setEnabled(true);
 	gameHandler->newGame(type, boardSize);
 }
 
-void MainWindow::updateCounter() {
+void MainWindow::reactToMove() {
 	this->statusBar()->showMessage("Ilość ruchów: " + QString::number(Game::getInstance().getMovesCount()));
+	if (Game::getInstance().isGameFinished()) {
+		QMessageBox msgBox;
+		msgBox.setWindowTitle("Wygrana!");
+		msgBox.setText(QString("Wygrałeś w ") + Game::getInstance().getMovesCount() + " ruchach!");
+		this->ui->GraphicsView->setEnabled(false);
+		msgBox.exec();
+	}
 }
 
 

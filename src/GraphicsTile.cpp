@@ -32,7 +32,6 @@ void GraphicsTile::mousePressEvent (QGraphicsSceneMouseEvent* event) {
 			event->ignore();
 			return;
 		}
-		//assert(Game::getInstance().getLastMoved() == this->relativePosition);
 		move = Game::getInstance().undoLastMove();
 	} else
 		return;
@@ -59,13 +58,8 @@ void GraphicsTile::generatePixmap() {
 	QPixmap pixmap(tileSize, tileSize);
 	QPainter painter(&pixmap);
 	
-	int r = rand() % 256;
-	int g = rand() % 256;
-	int b = rand() % 256;
-	qDebug("\tColor: %d %d %d\n", r, g, b);
-	
-	painter.fillRect(QRect(0, 0, tileSize, tileSize), 
-			       QColor(r, g, b));
+	qDebug("Color: %d %d %d\n", this->color.red(), this->color.green(), this->color.blue());
+	painter.fillRect(QRect(0, 0, tileSize, tileSize), this->color);
 	QString text = QString::number(number);
 	//TODO center!
 	painter.drawText(tileSize / 2 - 6, tileSize / 2 + 4, text);
@@ -81,6 +75,12 @@ GraphicsTile::GraphicsTile (GameHandler* parent, const int number, const Point r
 	this->parent = parent;
 	this->number = number;
 	this->relativePosition = relativePosition;
+	
+	int r = rand() % 256;
+	int g = rand() % 256;
+	int b = rand() % 256;
+	qDebug("\tColor: %d %d %d\n", r, g, b);
+	this->color = QColor(r, g, b);
 	
 	this->generatePixmap();
 	
