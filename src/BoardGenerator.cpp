@@ -126,12 +126,16 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 	
 	int id = best.prevMoveId;
 	
+	vector<Point> solutionPart;
+	
 	while (id != -1) {
-		this->solution.push_back(movesMemory[id].first);
+		solutionPart.push_back(movesMemory[id].first);
 		id = movesMemory[id].second;
 	}
 	
-	reverse(this->solution.begin(), this->solution.end());
+	reverse(solutionPart.begin(), solutionPart.end());
+	this->solution.reserve(this->solution.size() + solutionPart.size());
+	this->solution.insert(this->solution.end(), solutionPart.begin(), solutionPart.end());
 	
 	return *best.board;
 }
