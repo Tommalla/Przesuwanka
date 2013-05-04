@@ -33,6 +33,10 @@ class Board {
 		 * @return const Point& Point(0,0), jeśli nie ma, wektor przesunięcia na którego końcu leży wolne pole w innym przypadku
 		 **/
 		const Point getFreeFieldAround(const Point& pos);
+		/**
+		 * @brief Zwraca ruchy dostępne z obecnej planszy
+		 **/
+		const vector<Point> getMoves();
 		const int countInversions() const;
 		const QString getHash();
 		

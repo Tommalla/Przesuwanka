@@ -56,6 +56,16 @@ const Point Board::getFreeFieldAround (const Point& pos) {
 	return Point(0, 0);
 }
 
+const vector< Point > Board::getMoves() {
+	vector<Point> res;
+	for (int x = 0; x < this->size; ++x)
+		for (int y = 0; y < this->size; ++y)
+			if (this->getFreeFieldAround(Point(x, y)) != Point(0, 0))
+				res.push_back(Point(x,y));
+	return res;
+}
+
+
 const int Board::countInversions() const {
 	//napałowo, bo mało
 	int res = 0;
