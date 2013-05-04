@@ -108,7 +108,7 @@ int BitContainer::getValue (const int id) {
 
 const QString BitContainer::getHash() {
 	QString res = "";
-	for (int i = 0; i < this->container.size(); ++i)
-		res += QString::number(this->container[i]);
-	return res;
+	for (int i = 0; i < this->container.size() - 1; ++i)
+		res += QString::number(this->container[i]) + ";";
+	return res + QString::number(container.back());
 }
