@@ -37,7 +37,7 @@ Board& Board::operator= (const Board& b) {
 }
 
 
-int Board::getFieldAt (const int x, const int y) {
+int Board::getFieldAt (const int x, const int y) const {
 	assert(x < this->size && y < this->size);
 	
 	return this->board->getValue(this->size * y + x);
@@ -78,6 +78,15 @@ const int Board::countInversions() const {
 	}
 	return res;
 }
+
+bool Board::isSolved() const {
+	for (int i = 0; i < this->size * this->size - 1; ++i)
+		if (this->getFieldAt(i % this->size, i / this->size) != i + 1)
+			return false;
+	
+	return true;
+}
+
 
 const QString Board::getHash() {
 	return this->board->getHash();

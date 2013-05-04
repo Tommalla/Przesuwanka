@@ -26,7 +26,7 @@ class Board {
 		Board(const Board &b);
 		
 		void setFieldAt(const Point& pos, const int field);
-		int getFieldAt(const int x, const int y);
+		int getFieldAt(const int x, const int y) const;
 		/**
 		 * @brief Zwraca puste pole z otoczenia pos.
 		 * @param pos ...
@@ -38,6 +38,8 @@ class Board {
 		 **/
 		const vector<Point> getMoves();
 		const int countInversions() const;
+		
+		bool isSolved() const;
 		const QString getHash();
 		
 		~Board();
