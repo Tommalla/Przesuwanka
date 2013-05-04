@@ -70,6 +70,7 @@ void MainWindow::showHelp() {
 void MainWindow::newGame() {
 	qDebug("MainWindow::newGame()\n");
 	
+	solutionTimer.stop();
 	GameType type = newGameDialog.getGameType();
 	
 	qDebug("\ttype = %d\n", type);

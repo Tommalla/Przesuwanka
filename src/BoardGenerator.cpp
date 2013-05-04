@@ -172,7 +172,12 @@ void BoardGenerator::generateRandomBoard() {
 }
 
 bool BoardGenerator::isBoardSolvable() {
-	return this->initialBoard->countInversions() % 2 == 0;
+	int row = this->initialBoard->getPos(0).y;
+	row = this->size - row;
+	int inv = this->initialBoard->countInversions();
+	//( (grid width odd) && (#inversions even) )  ||  ( (grid width even) && ((blank on odd row from bottom) == (#inversions even)) )
+	return ((this->size % 2 == 1) && (inv % 2 == 0)) ||
+	(this->size % 2 == 0 && ( (row % 2 == 1) == (inv % 2 == 0) ));
 }
 
 void BoardGenerator::generateMovesBoard (int movesQty) {
@@ -182,26 +187,30 @@ void BoardGenerator::generateMovesBoard (int movesQty) {
 	
 	while (movesQty--) {
 		moves.clear();
-		for (int x = 0; x < this->size; ++x)
-			for (int y = 0; y < this->size; ++y)
-				if (initialBoard->getFreeFieldAround(Point(x, y)) != Point(0, 0))
-					moves.push_back(Point(x,y));
+		moves = initialBoard->getMoves();
+		
+		assert(!moves.empty());
 				
 		int id = rand() % moves.size();
 		Point dst;
 		dst = initialBoard->getFreeFieldAround(moves[id]) + moves[id];
+		qDebug("Generowanie planszy: %d %d -> %d %d (%d %d)", moves[id].x, moves[id].y, dst.x, dst.y, dst.x - moves[id].x,
+			dst.y - moves[id].y
+		);
+		assert(initialBoard->getFieldAt(dst.x, dst.y) == 0);
 		initialBoard->setFieldAt(dst, initialBoard->getFieldAt(moves[id].x, moves[id].y));
 		initialBoard->setFieldAt(moves[id], 0);
 		
-		//nie chcemy powtórzeń:
-		if (states.contains(initialBoard->getHash())) {
-			swap(dst, moves[id]);
-			dst = initialBoard->getFreeFieldAround(moves[id]) + moves[id];
-			initialBoard->setFieldAt(dst, initialBoard->getFieldAt(moves[id].x, moves[id].y));
-			initialBoard->setFieldAt(moves[id], 0);
-			++movesQty;
-		} else
-			states.insert(initialBoard->getHash());
+// 		//nie chcemy powtórzeń:
+// 		if (states.contains(initialBoard->getHash())) {
+// 			swap(dst, moves[id]);
+// 			dst = initialBoard->getFreeFieldAround(moves[id]) + moves[id];
+// 			qDebug("Cofanie ruchu: %d %d -> %d %d",  moves[id].x, moves[id].y, dst.x, dst.y);
+// 			initialBoard->setFieldAt(dst, initialBoard->getFieldAt(moves[id].x, moves[id].y));
+// 			initialBoard->setFieldAt(moves[id], 0);
+// 			++movesQty;
+// 		} else
+// 			states.insert(initialBoard->getHash());
 	}
 	
 	assert(this->isBoardSolvable());
@@ -210,8 +219,12 @@ void BoardGenerator::generateMovesBoard (int movesQty) {
 void BoardGenerator::generateSolvedBoard() {
 	this->reset();
 	
-	for (int i = 0; i < this->size * this->size - 1; ++i)
+	for (int i = 0; i < this->size * this->size - 1; ++i) {
+		qDebug("SolvedBoard %d %d: %d", i % this->size, i / this->size, i + 1 );
 		this->initialBoard->setFieldAt(Point(i % this->size, i / this->size), i + 1);
+	}
+	
+	this->initialBoard->setFieldAt(Point(this->size - 1, this->size - 1), 0);
 }
 
 void BoardGenerator::copyToSelf (const BoardGenerator& b) {

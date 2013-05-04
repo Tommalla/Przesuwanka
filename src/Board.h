@@ -34,7 +34,7 @@ class Board {
 		 **/
 		const Point getFreeFieldAround(const Point& pos);
 		/**
-		 * @brief Zwraca ruchy dostępne z obecnej planszy
+		 * @brief Zwraca punkty z których można się ruszyć w obecnej planszy
 		 **/
 		const vector<Point> getMoves();
 		const Point getPos(const int number);
