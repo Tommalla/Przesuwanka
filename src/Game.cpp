@@ -1,6 +1,5 @@
 /* Tomasz [Tommalla] Zakrzewski, 2013
 All rights reserved */
-
 #include <cassert>
 #include <cstddef>
 #include <QDebug>
@@ -32,17 +31,33 @@ const Point Game::makeMove (const Point& move) {
 	board->setFieldAt(move, 0);
 	board->setFieldAt(move + res, tmp);
 
+	if (this->state == PLAYING)
+		this->movesHistory.push_back(move + res);
+	else
+		this->nextSolutionMove++;	//Założenie - jeśli ruch w trybie odtwarzania to 
+		//Game przewija ruchy
+
 	this->movesCount++;
 	this->isGameFinished();
-	this->movesHistory.push_back(move + res);
+
 	return res;
 }
 
 const Point Game::getLastMoved() {
-	if (movesHistory.empty())
-		return Point(-1, -1);
-	return this->movesHistory.back();
+	if (this->state == PLAYING) {
+		if (movesHistory.empty())
+			return Point(-1, -1);
+		return this->movesHistory.back(); 
+	}
+	
+	return (this->nextSolutionMove == 0) ? Point(-1, -1) : this->solution[nextSolutionMove - 1];
 }
+
+const Point Game::getNextSolutionMove() {
+	assert(this->nextSolutionMove < this->solution.size());
+	return this->solution[this->nextSolutionMove];
+}
+
 
 const Point Game::undoLastMove () {
 	Point dbgPoint = this->movesHistory.back();
@@ -64,17 +79,24 @@ const Point Game::getMoveFor (const Point& pos) {
 }
 
 
-void Game::reset() {
+void Game::reset(const GameState state) {
 	delete this->board;
 	this->board = new Board(this->boardGenerator.getInitialBoard());
 	this->movesCount = 0;
 	this->movesHistory.clear();
+	this->state = state;
+	
+	if (state == SHOWING_SOLUTION) {
+		this->nextSolutionMove = 0;
+		//for sure? this->solution = board->calculateSolution();
+	}
 }
+
 
 void Game::newGame (const GameType& type, const int size) {
 	this->size = size;
 	boardGenerator.init(type, size);
-	this->reset();
+	this->reset(PLAYING);
 	
 	this->gameInProgress = true;
 }
@@ -84,13 +106,8 @@ int Game::getMovesCount() {
 }
 
 bool Game::isGameFinished() {
-	if (this->gameInProgress) {
-		for (int i = 0; i < this->size * this->size - 1; ++i)
-			if (board->getFieldAt(i % this->size, i / this->size) != i + 1)
-				return false;
-	
-		this->gameInProgress = false;
-	}
+	if (this->gameInProgress)
+		return !(this->gameInProgress = !board->isSolved(this->size));
 	
 	return true;
 }

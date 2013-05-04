@@ -79,9 +79,25 @@ const int Board::countInversions() const {
 	return res;
 }
 
-bool Board::isSolved() const {
-	for (int i = 0; i < this->size * this->size - 1; ++i)
-		if (this->getFieldAt(i % this->size, i / this->size) != i + 1)
+const int Board::getManhattanMetricValue() const {
+	int res = 0;
+	for (int x = 0; x < this->size; ++x)
+		for (int y = 0; y < this->size; ++y) {
+			int elem = this->getFieldAt(x, y);
+			if (elem != 0) {
+				elem--;
+				res += abs(x - (elem % this->size));
+				res += abs(y - (elem / this->size));
+			}
+		}
+		
+	return res;
+}
+
+
+bool Board::isSolved(const int rows) const {
+	for (int i = 0; i < rows * this->size; ++i)
+		if (i != this->size * this->size - 1 && this->getFieldAt(i % this->size, i / this->size) != i + 1)
 			return false;
 	
 	return true;

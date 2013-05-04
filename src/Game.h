@@ -14,12 +14,14 @@ class Game {
 		Game(const Game& g);
 		Game& operator=(const Game& g);
 		
-		int movesCount, size;
+		int movesCount, size, nextSolutionMove;
 		bool gameInProgress;
+		GameState state;
 		
 		BoardGenerator boardGenerator;
 		Board* board;
 		list<Point> movesHistory;
+		vector<Point> solution;
 	public:
 		static Game& getInstance();
 		
@@ -30,13 +32,14 @@ class Game {
 		 * @return Point, jeśli jest jakiś ruch w historii, (-1, -1), jeśli nie ma
 		 **/
 		const Point getLastMoved();
+		const Point getNextSolutionMove();
 		const Point undoLastMove();
 		const Point getMoveFor(const Point& pos);
 		
 		/**
 		 * @brief Przywraca pierwotny stan planszy przed ruchami gracza
 		 **/
-		void reset();
+		void reset(const GameState state);
 		void newGame(const GameType& type, const int size);
 		
 		/**

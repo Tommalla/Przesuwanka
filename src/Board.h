@@ -38,8 +38,12 @@ class Board {
 		 **/
 		const vector<Point> getMoves();
 		const int countInversions() const;
+		/**
+		 * @brief Zwraca sumę odległości wszystkich klocków od ich docelowego położenia w metryce Manhattan
+		 **/
+		const int getManhattanMetricValue() const;
 		
-		bool isSolved() const;
+		bool isSolved(const int rows) const;
 		const QString getHash();
 		
 		~Board();
