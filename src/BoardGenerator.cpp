@@ -201,16 +201,16 @@ void BoardGenerator::generateMovesBoard (int movesQty) {
 		initialBoard->setFieldAt(dst, initialBoard->getFieldAt(moves[id].x, moves[id].y));
 		initialBoard->setFieldAt(moves[id], 0);
 		
-// 		//nie chcemy powtórzeń:
-// 		if (states.contains(initialBoard->getHash())) {
-// 			swap(dst, moves[id]);
-// 			dst = initialBoard->getFreeFieldAround(moves[id]) + moves[id];
-// 			qDebug("Cofanie ruchu: %d %d -> %d %d",  moves[id].x, moves[id].y, dst.x, dst.y);
-// 			initialBoard->setFieldAt(dst, initialBoard->getFieldAt(moves[id].x, moves[id].y));
-// 			initialBoard->setFieldAt(moves[id], 0);
-// 			++movesQty;
-// 		} else
-// 			states.insert(initialBoard->getHash());
+		//nie chcemy powtórzeń:
+		if (states.contains(initialBoard->getHash())) {
+			swap(dst, moves[id]);
+			dst = initialBoard->getFreeFieldAround(moves[id]) + moves[id];
+			qDebug("Cofanie ruchu: %d %d -> %d %d",  moves[id].x, moves[id].y, dst.x, dst.y);
+			initialBoard->setFieldAt(dst, initialBoard->getFieldAt(moves[id].x, moves[id].y));
+			initialBoard->setFieldAt(moves[id], 0);
+			++movesQty;
+		} else
+			states.insert(initialBoard->getHash());
 	}
 	
 	assert(this->isBoardSolvable());
