@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 
 #include "NewGameDialog.h"
 #include "GameHandler.h"
@@ -24,12 +25,14 @@ class MainWindow : public QMainWindow
 		Ui::MainWindow *ui;
 		NewGameDialog newGameDialog;
 		GameHandler* gameHandler;
+		QTimer solutionTimer;
 		
 	private slots:
 		void showAuthor();
 		void showHelp();
 		void newGame();
 		void reactToMove();
+		void showSolution();
 
 };
 

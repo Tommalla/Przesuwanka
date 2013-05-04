@@ -7,6 +7,7 @@ All rights reserved */
 #include "GraphicsScene.h"
 #include "Game.h"
 #include "GraphicsTile.h"
+#include "GameHandler.h"
 
 void GraphicsScene::keyReleaseEvent (QKeyEvent* event) {
 	QGraphicsScene::keyReleaseEvent (event);
@@ -14,7 +15,13 @@ void GraphicsScene::keyReleaseEvent (QKeyEvent* event) {
 }
 
 void GraphicsScene::mousePressEvent (QGraphicsSceneMouseEvent* event) {
+	if (parent->getState() == SHOWING_SOLUTION || parent->getState() == SHOWING_PAUSED ) {
+		qDebug("TODO: Showing playout (scene)");
+		return;
+	}
+	
 	qDebug("mousePress at Scene");
+	
 	if (event->button() == Qt::RightButton) {
 		qDebug("RightButton at Scene");
 		Point last = Game::getInstance().getLastMoved();
@@ -34,5 +41,10 @@ void GraphicsScene::mousePressEvent (QGraphicsSceneMouseEvent* event) {
 	} else if (event->button() == Qt::LeftButton)
 		QGraphicsScene::mousePressEvent(event);
 }
+
+GraphicsScene::GraphicsScene (GameHandler* parent) : QGraphicsScene() {
+	this->parent = parent;
+}
+
 
 

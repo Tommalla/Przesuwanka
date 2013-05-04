@@ -23,7 +23,12 @@ class GraphicsTile : public QObject, public QGraphicsPixmapItem {
 	public:
 		void generatePixmap();
 		const Point getRelativePosition();
-		void mousePressEvent ( QGraphicsSceneMouseEvent * event );
+		void mousePressEvent (QGraphicsSceneMouseEvent * event);
+		void moveTile(const Point move);
+		/**
+		 * @brief Zmienia położenie płytki na takie jak w grze
+		 **/
+		void syncWithGame();
 		GraphicsTile(GameHandler* parent, const int number, const Point relativePosition);
 };
 

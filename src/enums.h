@@ -2,5 +2,5 @@
 #define ENUMS_H
 
 enum GameType { RANDOM, EASY, MEDIUM, HARD };
-
+enum GameState { PLAYING, FINISHED, SHOWING_SOLUTION, SHOWING_PAUSED };
 #endif

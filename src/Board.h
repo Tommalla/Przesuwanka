@@ -37,6 +37,7 @@ class Board {
 		 * @brief Zwraca ruchy dostępne z obecnej planszy
 		 **/
 		const vector<Point> getMoves();
+		const Point getPos(const int number);
 		const int countInversions() const;
 		/**
 		 * @brief Zwraca sumę odległości wszystkich klocków od ich docelowego położenia w metryce Manhattan

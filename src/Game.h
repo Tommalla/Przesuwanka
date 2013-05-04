@@ -35,6 +35,7 @@ class Game {
 		const Point getNextSolutionMove();
 		const Point undoLastMove();
 		const Point getMoveFor(const Point& pos);
+		const Point getPos(const int number);
 		
 		/**
 		 * @brief Przywraca pierwotny stan planszy przed ruchami gracza

@@ -203,6 +203,8 @@ void BoardGenerator::generateMovesBoard (int movesQty) {
 		} else
 			states.insert(initialBoard->getHash());
 	}
+	
+	assert(this->isBoardSolvable());
 }
 
 void BoardGenerator::generateSolvedBoard() {

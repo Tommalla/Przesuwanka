@@ -95,6 +95,16 @@ const int Board::getManhattanMetricValue() const {
 	return res;
 }
 
+const Point Board::getPos (const int number) {
+	for (int x = 0; x < this->size; ++x)
+		for (int y = 0; y < this->size; ++y)
+			if (this->getFieldAt(x, y) == number)
+				return Point(x, y);
+			
+	return Point(-1, -1);
+}
+
+
 
 bool Board::isSolved(const int rows) const {
 	for (int i = 0; i < rows * this->size; ++i)

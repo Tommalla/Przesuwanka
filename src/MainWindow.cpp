@@ -28,11 +28,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	QObject::connect(ui->ActionNowa, SIGNAL(triggered()), &newGameDialog, SLOT(exec()));
 	QObject::connect(&newGameDialog, SIGNAL(accepted()), this, SLOT(newGame()));
 	QObject::connect(this->gameHandler, SIGNAL(moveMade()), this, SLOT(reactToMove()));
+	QObject::connect(ui->ActionPokazRozwiazanie, SIGNAL(triggered()), this, SLOT(showSolution()));
+	QObject::connect(&this->solutionTimer, SIGNAL(timeout()), gameHandler, SLOT(nextSolutionMove()));
+	
+	solutionTimer.setInterval(solutionTimerInterval);
+	solutionTimer.setSingleShot(false);
 }
 
 void MainWindow::show() {
 	QMainWindow::show();
-	this->gameHandler->newGame(RANDOM, boardSize);
+	this->gameHandler->newGame(EASY, boardSize);
 }
 
 void MainWindow::resizeEvent (QResizeEvent* event) {
@@ -41,18 +46,6 @@ void MainWindow::resizeEvent (QResizeEvent* event) {
 						      this->ui->GraphicsView->viewport()->height());
 	
 	this->gameHandler->repaintTiles();
-// 	GraphicsTile* it;
-// 	for (QList<QGraphicsItem*>::iterator iter = this->ui->GraphicsView->scene()->items().begin();
-// 	     iter != this->ui->GraphicsView->scene()->items().end(); ++iter) 
-// // 	     if (*iter != NULL)
-// 	     {
-// 		it = dynamic_cast<GraphicsTile*>(*iter);
-// // 		if (it != NULL)
-// // 		{
-// // 			qDebug("RESIZE: GraphicsTile: %d %d", it->getRelativePosition().x, it->getRelativePosition().y);
-// // 			it->generatePixmap();
-// // 		}
-// 	     }
 }
 
 
@@ -86,6 +79,7 @@ void MainWindow::newGame() {
 
 void MainWindow::reactToMove() {
 	this->statusBar()->showMessage("Ilość ruchów: " + QString::number(Game::getInstance().getMovesCount()));
+	
 	if (Game::getInstance().isGameFinished()) {
 		QMessageBox msgBox;
 		msgBox.setWindowTitle("Wygrana!");
@@ -93,6 +87,17 @@ void MainWindow::reactToMove() {
 		this->ui->GraphicsView->setEnabled(false);
 		msgBox.exec();
 	}
+}
+
+void MainWindow::showSolution() {
+	gameHandler->initializeSolutionShow();
+	
+	QMessageBox msgBox;
+	msgBox.setWindowTitle("Pokazywanie rozwiązania");
+	msgBox.setText("bla BLA BLA TODO");
+	msgBox.exec();
+	
+	this->solutionTimer.start();
 }
 
 

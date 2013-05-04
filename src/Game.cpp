@@ -78,6 +78,10 @@ const Point Game::getMoveFor (const Point& pos) {
 	return board->getFreeFieldAround(pos);
 }
 
+const Point Game::getPos (const int number) {
+	return board->getPos(number);
+}
+
 
 void Game::reset(const GameState state) {
 	delete this->board;
@@ -88,7 +92,7 @@ void Game::reset(const GameState state) {
 	
 	if (state == SHOWING_SOLUTION) {
 		this->nextSolutionMove = 0;
-		//for sure? this->solution = board->calculateSolution();
+		this->solution = this->boardGenerator.getSolution();
 	}
 }
 

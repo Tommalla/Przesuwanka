@@ -19,6 +19,8 @@ class GameHandler : public QObject {
 		vector<GraphicsTile* > tiles;
 		int size;
 		GameState state;
+		
+		void resetTiles();
 	public:
 		GameHandler(QGraphicsView* graphicsView);
 		
@@ -35,6 +37,8 @@ class GameHandler : public QObject {
 		~GameHandler();
 	signals:
 		void moveMade();
+	public slots:
+		void nextSolutionMove();
 };
 
 #endif // GAMEHANDLER_H

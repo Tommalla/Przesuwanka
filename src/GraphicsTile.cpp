@@ -16,6 +16,14 @@ const Point GraphicsTile::getRelativePosition() {
 
 void GraphicsTile::mousePressEvent (QGraphicsSceneMouseEvent* event) {
 	Point move;
+	
+	if (parent->getState() == SHOWING_SOLUTION || parent->getState() == SHOWING_PAUSED) {
+		//qDebug("TODO: Showing solution in tile");
+		move = Game::getInstance().getNextSolutionMove();
+		qDebug("Next solution move! %d %d", move.x, move.y);
+		//return;
+	}
+	
 	if (event->button() == Qt::LeftButton) {
 		if (Game::getInstance().isMoveValid(this->relativePosition))
 			move = Game::getInstance().makeMove(this->relativePosition);
@@ -25,7 +33,6 @@ void GraphicsTile::mousePressEvent (QGraphicsSceneMouseEvent* event) {
 		}
 	} else if (event->button() == Qt::RightButton) {
 		qDebug("Right button at tile %d %d", this->relativePosition.x, this->relativePosition.y);
-		Point p = Game::getInstance().getLastMoved();
 		if (Game::getInstance().getLastMoved() == Point(-1, -1))
 			return;
 		if (Game::getInstance().getLastMoved() != this->relativePosition) {
@@ -36,7 +43,14 @@ void GraphicsTile::mousePressEvent (QGraphicsSceneMouseEvent* event) {
 	} else
 		return;
 	
-	this->relativePosition  = this->relativePosition + move;
+	this->moveTile(move);
+	
+}
+
+void GraphicsTile::moveTile (const Point move) {
+	qDebug("Ruch %d %d -> %d %d", this->relativePosition.x, this->relativePosition.y, this->relativePosition.x + move.x,
+	       this->relativePosition.y + move.y);
+	this->relativePosition = this->relativePosition + move;
 	
 	this->animation.setDuration(animationTime);
 	this->animation.setEndValue(QPoint(relativePosition.x * tileSize, relativePosition.y * tileSize));
@@ -44,6 +58,7 @@ void GraphicsTile::mousePressEvent (QGraphicsSceneMouseEvent* event) {
 	
 	this->parent->registerMove();
 }
+
 
 void GraphicsTile::generatePixmap() {
 	qDebug("generatePixmap for number %d\n", number);
@@ -68,6 +83,12 @@ void GraphicsTile::generatePixmap() {
 	
 	this->setPixmap(pixmap);
 	this->setOffset(this->relativePosition.x * tileSize, this->relativePosition.y * tileSize);
+}
+
+void GraphicsTile::syncWithGame() {
+	Point pos = Game::getInstance().getPos(this->number);
+	this->relativePosition = pos;
+	this->setOffset(pos.x * this->tileSize, pos.y * this->tileSize);
 }
 
 
