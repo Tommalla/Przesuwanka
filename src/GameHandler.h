@@ -18,16 +18,20 @@ class GameHandler : public QObject {
 		GraphicsScene* scene;
 		vector<GraphicsTile* > tiles;
 		int size;
+		GameState state;
 	public:
 		GameHandler(QGraphicsView* graphicsView);
 		
 		void newGame(const GameType& type, int size);
+		void initializeSolutionShow();
 		
 		const QGraphicsView* getView() const;
 		const GraphicsScene* getScene() const;
 		const int getSize() const;
 		void repaintTiles();
 		void registerMove();
+		
+		const GameState getState();
 		~GameHandler();
 	signals:
 		void moveMade();

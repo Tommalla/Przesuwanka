@@ -6,11 +6,136 @@ All rights reserved */
 //#include <ctime>
 #include <QDebug>
 #include <algorithm>
+#include <set>
+#include <climits>
 #include "BoardGenerator.h"
+#include "constants.h"
+
+struct AStarNode {
+	Board* board;
+	int f, g, prevMoveId;
+	
+	AStarNode& operator=(const AStarNode& a) {
+		board = a.board;
+		f = a.f;
+		g = a.g;
+		prevMoveId = a.prevMoveId;
+	}
+};
+
+struct setCmp {
+	inline bool operator() (const AStarNode &a, const AStarNode& b) {
+		if (a.f != b.f)
+			return a.f < b.f;
+		if (a.g != b.g)
+			return a.g < b.g;
+		return a.prevMoveId < b.prevMoveId;
+	}
+};
 
 void BoardGenerator::calculateSolution() {
-	//TODO A*
+	qDebug("BoardGenerator::calculateSolution");
+	this->solution.clear();
+	Board solved = *this->initialBoard;
+	
+	for (int i = 1; i <= this->size; ++i)
+		this->aStar(i, solved);
 }
+
+Board BoardGenerator::aStar (const int level, const Board board) {
+	qDebug("BoardGenerator::aStar(%d)", level);
+	QSet<QString> prevStates;	//poprzednie stany planszy, bo nie chcemy pętlii można szybko sprawdzić
+	set<AStarNode, setCmp> s;
+	vector<pair<Point, int> > movesMemory;
+	vector<Point> moves;
+	
+	AStarNode v, u, best;
+	v.board = new Board(board);
+	v.f = v.board->getManhattanMetricValue();
+	v.g = 0;
+	v.prevMoveId = -1;
+	
+	best.g = INT_MAX;
+	best.board = NULL;
+	
+	s.insert(v);
+	prevStates.insert(v.board->getHash());
+	
+	
+	while (!s.empty() && best.g == INT_MAX) {
+		v = *s.begin();
+		s.erase(s.begin());
+		
+		//assert(!prevStates.contains(v.board->getHash()));
+		
+		//qDebug("Wierzchołek w odległości %d od źródła.", v.g + 1);
+		
+		moves = v.board->getMoves();
+		for (vector<Point>::iterator iter = moves.begin(); iter != moves.end(); ++iter) {
+			u.board = new Board(*v.board);
+			
+			//przygotowywujemy planszę po ruchu
+			Point field = *iter;
+			Point move = u.board->getFreeFieldAround(field);
+			u.board->setFieldAt(field + move, u.board->getFieldAt(field.x, field.y));
+			u.board->setFieldAt(field, 0);
+			
+			//qDebug("Hash: %s",  u.board->getHash().toStdString().c_str());
+			
+			if (!prevStates.contains(u.board->getHash())) {	//jeśli nie ma powtórzenia
+				u.g = v.g + 1;
+				u.f = u.g + u.board->getManhattanMetricValue();
+				
+				if (u.g > aStarMaxDistance || u.g > best.g /*|| u.f - u.g > v.f - v.g*/) {
+					delete u.board;
+					continue;
+				}
+				
+				movesMemory.push_back(make_pair(move, v.prevMoveId));
+				u.prevMoveId = movesMemory.size() - 1;
+				
+				if (u.board->isSolved(level)) {
+					qDebug("Znaleziono rozwiązanie! Ilość ruchów: %d", v.g + 1);
+					//TODO
+					if (best.g > u.g) {
+						delete best.board;
+						best = u;
+					} else
+						delete u.board;
+					
+					break;
+				} else {
+					s.insert(u);
+					prevStates.insert(u.board->getHash());
+				}
+			} else {
+				//qDebug("RAWR! ERROR! Ten hasz już był!");
+				delete u.board;
+			}
+		}
+		
+		delete v.board;
+	}
+	
+	while (!s.empty()) {
+		delete s.begin()->board;
+		s.erase(s.begin());
+	}
+	
+	qDebug("Pozostaje odzyskać rozwiązanie i posprzątać");
+	
+	int id = best.prevMoveId;
+	
+	while (id != -1) {
+		this->solution.push_back(movesMemory[id].first);
+		id = movesMemory[id].second;
+	}
+	
+	reverse(this->solution.begin(), this->solution.end());
+	
+	return *best.board;
+}
+
 
 void BoardGenerator::generateRandomBoard() {
 	this->reset();
@@ -124,7 +249,7 @@ void BoardGenerator::init (const GameType& type, int size) {
 			this->generateMovesBoard(this->hardBoardMoves);
 			break;
 	}
-	
+	this->calculateSolution();
 	this->initialized = true;
 }
 

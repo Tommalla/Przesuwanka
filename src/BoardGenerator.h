@@ -21,6 +21,7 @@ class BoardGenerator {
 
 		vector<Point> solution;
 		void calculateSolution();
+		Board aStar(const int level, const Board board);
 		void generateRandomBoard();
 		bool isBoardSolvable();
 		/**
@@ -40,7 +41,7 @@ class BoardGenerator {
 
 		void init (const GameType& type, int size);
 
-		const vector< Point >& getSolution();
+		const vector<Point>& getSolution();
 		Board getInitialBoard();
 
 		~BoardGenerator();

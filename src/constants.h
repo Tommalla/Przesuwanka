@@ -15,5 +15,6 @@ const QString HELP_MESSAGE = QString("<center> Ktoś był na tyle \"sprytny\", �
 	
 const int boardSize = 4;
 const int animationTime = 100;
+const int aStarMaxDistance = 80;
 
 #endif

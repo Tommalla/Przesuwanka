@@ -7,7 +7,7 @@ All rights reserved */
 GameHandler::GameHandler(QGraphicsView* graphicsView) {
 	this->graphicsView = graphicsView;
 	
-	this->scene = new GraphicsScene();
+	this->scene = new GraphicsScene(this);
 	qDebug("scene size: %d x %d\n", this->scene->width(), this->scene->height());
 	this->graphicsView->setScene(this->scene);
 }
@@ -36,7 +36,15 @@ void GameHandler::newGame(const GameType& type, int size) {
 				tiles.push_back(new GraphicsTile(this, Game::getInstance().getFieldAt(x, y), Point(x, y)));
 				this->scene->addItem(tiles.back());
 			}
+			
+	this->state = PLAYING;
 }
+
+void GameHandler::initializeSolutionShow() {
+	Game::getInstance().reset(SHOWING_SOLUTION);
+	this->state = SHOWING_SOLUTION;
+}
+
 
 const QGraphicsView* GameHandler::getView() const {
 	return this->graphicsView;
@@ -60,6 +68,11 @@ void GameHandler::registerMove() {
 	if (Game::getInstance().isGameFinished())
 		qDebug("Wygrana!");
 }
+
+const GameState GameHandler::getState() {
+	return state;
+}
+
 
 GameHandler::~GameHandler() {
 	delete this->scene;
