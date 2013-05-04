@@ -17,6 +17,7 @@ void GameHandler::newGame(const GameType& type, int size) {
 	
 	this->size = size;
 	this->scene->clear();
+	this->tiles.clear();
 	this->scene->setSceneRect(QRect(0, 0, this->graphicsView->viewport()->width(), this->graphicsView->viewport()->height()));
 	
 	Game::getInstance().newGame(type, size);
@@ -31,8 +32,10 @@ void GameHandler::newGame(const GameType& type, int size) {
 	
 	for (int x = 0; x < this->size; ++x)
 		for (int y = 0; y < this->size; ++y)
-			if (Game::getInstance().getFieldAt(x, y) != 0)
-				this->scene->addItem(new GraphicsTile(this, Game::getInstance().getFieldAt(x, y), Point(x, y)));
+			if (Game::getInstance().getFieldAt(x, y) != 0) {
+				tiles.push_back(new GraphicsTile(this, Game::getInstance().getFieldAt(x, y), Point(x, y)));
+				this->scene->addItem(tiles.back());
+			}
 }
 
 const QGraphicsView* GameHandler::getView() const {
@@ -45,6 +48,12 @@ const int GameHandler::getSize() const {
 const GraphicsScene* GameHandler::getScene() const {
 	return this->scene;
 }
+
+void GameHandler::repaintTiles() {
+	for(vector<GraphicsTile*>::iterator iter = this->tiles.begin(); iter != this->tiles.end(); ++iter)
+		(*iter)->generatePixmap();
+}
+
 
 void GameHandler::registerMove() {
 	emit moveMade();

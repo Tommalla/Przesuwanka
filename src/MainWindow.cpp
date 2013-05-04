@@ -35,6 +35,26 @@ void MainWindow::show() {
 	this->gameHandler->newGame(RANDOM, boardSize);
 }
 
+void MainWindow::resizeEvent (QResizeEvent* event) {
+	QWidget::resizeEvent (event);
+	this->ui->GraphicsView->scene()->setSceneRect(0, 0, this->ui->GraphicsView->viewport()->width(), 
+						      this->ui->GraphicsView->viewport()->height());
+	
+	this->gameHandler->repaintTiles();
+// 	GraphicsTile* it;
+// 	for (QList<QGraphicsItem*>::iterator iter = this->ui->GraphicsView->scene()->items().begin();
+// 	     iter != this->ui->GraphicsView->scene()->items().end(); ++iter) 
+// // 	     if (*iter != NULL)
+// 	     {
+// 		it = dynamic_cast<GraphicsTile*>(*iter);
+// // 		if (it != NULL)
+// // 		{
+// // 			qDebug("RESIZE: GraphicsTile: %d %d", it->getRelativePosition().x, it->getRelativePosition().y);
+// // 			it->generatePixmap();
+// // 		}
+// 	     }
+}
+
 
 MainWindow::~MainWindow() {
 	delete ui;

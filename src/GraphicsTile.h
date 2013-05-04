@@ -20,9 +20,8 @@ class GraphicsTile : public QObject, public QGraphicsPixmapItem {
 		Point relativePosition;
 		QPropertyAnimation animation;
 		QColor color;
-		
-		void generatePixmap();
 	public:
+		void generatePixmap();
 		const Point getRelativePosition();
 		void mousePressEvent ( QGraphicsSceneMouseEvent * event );
 		GraphicsTile(GameHandler* parent, const int number, const Point relativePosition);

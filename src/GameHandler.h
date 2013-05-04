@@ -16,7 +16,7 @@ class GameHandler : public QObject {
 	private:
 		QGraphicsView* graphicsView;
 		GraphicsScene* scene;
-		vector<GraphicsTile> tiles;
+		vector<GraphicsTile* > tiles;
 		int size;
 	public:
 		GameHandler(QGraphicsView* graphicsView);
@@ -26,6 +26,7 @@ class GameHandler : public QObject {
 		const QGraphicsView* getView() const;
 		const GraphicsScene* getScene() const;
 		const int getSize() const;
+		void repaintTiles();
 		void registerMove();
 		~GameHandler();
 	signals:
