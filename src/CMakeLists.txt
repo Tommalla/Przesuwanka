@@ -1,4 +1,4 @@
-SET(CMAKE_CXX_FLAGS "-O2 -std=c++11")
+SET(CMAKE_CXX_FLAGS "-O2 -std=c++11") # -D QT_NO_DEBUG_OUTPUT
 
 set (GUI_SOURCES
 	MainWindow.cpp

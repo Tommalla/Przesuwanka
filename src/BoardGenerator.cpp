@@ -14,13 +14,6 @@ All rights reserved */
 struct AStarNode {
 	Board* board;
 	int f, g, prevMoveId;
-	
-	/*AStarNode& operator=(const AStarNode& a) {
-		board = a.board;
-		f = a.f;
-		g = a.g;
-		prevMoveId = a.prevMoveId;
-	}*/
 };
 
 struct setCmp {
@@ -176,20 +169,7 @@ void BoardGenerator::generateRandomBoard() {
 	
 	while (!this->isBoardSolvable()) {
 		qDebug("Correcting board!");
-		int x, y, tmp;
-		do {
-			x = rand() % this->size;
-			y = rand() % this->size;
-		} while ((tmp = this->initialBoard->getFieldAt(x, y)) != 0);
-		
-		int x2, y2;
-		do {
-			x2 = rand() % this->size;
-			y2 = rand() % this->size;
-		} while ( !(x2 == x && y2 == y) && this->initialBoard->getFieldAt(x2, y2) != 0);
-		
-		this->initialBoard->setFieldAt(Point(x, y), this->initialBoard->getFieldAt(x2, y2));
-		this->initialBoard->setFieldAt(Point(x2, y2), tmp);
+		this->generateRandomBoard();
 	}
 }
 
