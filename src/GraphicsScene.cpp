@@ -23,7 +23,7 @@ void GraphicsScene::keyPressEvent (QKeyEvent* event) {
 			break;
 		case Qt::Key_Right:
 			if (this->parent->getState() != PLAYING) {
-				this->parent->nextSolutionMove();
+				this->parent->makeNextSolutionMove();
 				return;
 			}
 			move = Point(1, 0);
@@ -76,7 +76,7 @@ void GraphicsScene::mousePressEvent (QGraphicsSceneMouseEvent* event) {
 		if (this->parent->getState() == PLAYING)
 			QGraphicsScene::mousePressEvent(event);
 		else
-			this->parent->nextSolutionMove();
+			this->parent->makeNextSolutionMove();
 	}
 }
 

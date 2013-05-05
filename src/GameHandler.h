@@ -47,7 +47,7 @@ class GameHandler : public QObject {
 	signals:
 		void moveMade();
 	public slots:
-		void nextSolutionMove();
+		void makeNextSolutionMove();
 };
 
 #endif // GAMEHANDLER_H

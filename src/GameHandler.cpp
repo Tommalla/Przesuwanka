@@ -123,7 +123,7 @@ GameHandler::~GameHandler() {
 	delete this->scene;
 }
 
-void GameHandler::nextSolutionMove() {
+void GameHandler::makeNextSolutionMove() {
 	assert(this->state != PLAYING);
 	
 	qDebug("Wybity kolejny ruch z rozwiązania!");

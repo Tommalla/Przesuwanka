@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	QObject::connect(&newGameDialog, SIGNAL(accepted()), this, SLOT(newGame()));
 	QObject::connect(this->gameHandler, SIGNAL(moveMade()), this, SLOT(reactToMove()));
 	QObject::connect(ui->ActionPokazRozwiazanie, SIGNAL(triggered()), this, SLOT(showSolution()));
-	QObject::connect(&this->solutionTimer, SIGNAL(timeout()), gameHandler, SLOT(nextSolutionMove()));
+	QObject::connect(&this->solutionTimer, SIGNAL(timeout()), gameHandler, SLOT(makeNextSolutionMove()));
 	QObject::connect(this->gameHandler->getScene(), SIGNAL(pauseSolution()), this, SLOT(pauseSolution()));
 	QObject::connect(this->gameHandler->getScene(), SIGNAL(resumeSolution()), this, SLOT(resumeSolution()));
 	
