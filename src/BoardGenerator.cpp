@@ -202,15 +202,21 @@ void BoardGenerator::generateMovesBoard (int movesQty) {
 	this->generateSolvedBoard();
 	vector<Point> moves;
 	//QSet<QString> states;
+	Point lastMove;
 	
 	while (movesQty--) {
 		moves.clear();
 		moves = initialBoard->getMoves();
 		
 		assert(!moves.empty());
-				
-		int id = rand() % moves.size();
+		
+		int id;
 		Point dst;
+		do {
+			id = rand() % moves.size();
+			dst = moves[id] + this->initialBoard->getFreeFieldAround(moves[id]);
+		} while(moves[id] == lastMove);
+			
 		dst = initialBoard->getFreeFieldAround(moves[id]) + moves[id];
 		qDebug("Generowanie planszy: %d %d -> %d %d (%d %d)", moves[id].x, moves[id].y, dst.x, dst.y, dst.x - moves[id].x,
 			dst.y - moves[id].y
@@ -218,6 +224,8 @@ void BoardGenerator::generateMovesBoard (int movesQty) {
 		assert(initialBoard->getFieldAt(dst.x, dst.y) == 0);
 		initialBoard->setFieldAt(dst, initialBoard->getFieldAt(moves[id].x, moves[id].y));
 		initialBoard->setFieldAt(moves[id], 0);
+		
+		lastMove = moves[id];
 		
 // 		//nie chcemy powtórzeń:
 // 		if (states.contains(initialBoard->getHash())) {
