@@ -15,12 +15,12 @@ struct AStarNode {
 	Board* board;
 	int f, g, prevMoveId;
 	
-	AStarNode& operator=(const AStarNode& a) {
+	/*AStarNode& operator=(const AStarNode& a) {
 		board = a.board;
 		f = a.f;
 		g = a.g;
 		prevMoveId = a.prevMoveId;
-	}
+	}*/
 };
 
 struct setCmp {
@@ -39,7 +39,11 @@ void BoardGenerator::calculateSolution() {
 	Board solved = *this->initialBoard;
 	
 	for (int i = 1; i <= this->size; ++i)
-		this->aStar(i, solved);
+		solved = this->aStar(i, solved);
+	
+	qDebug("Rozwiązanie:");
+	for (int i = 0; i < this->solution.size(); ++i)
+		printf("%d %d", solution[i].x, solution[i].y);
 }
 
 Board BoardGenerator::aStar (const int level, const Board board) {
@@ -91,7 +95,7 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 					continue;
 				}
 				
-				movesMemory.push_back(make_pair(move, v.prevMoveId));
+				movesMemory.push_back(make_pair(field, v.prevMoveId));
 				u.prevMoveId = movesMemory.size() - 1;
 				
 				if (u.board->isSolved(level)) {
@@ -129,6 +133,7 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 	vector<Point> solutionPart;
 	
 	while (id != -1) {
+		qDebug("Wewnątrz rozwiązania: %d %d\n", movesMemory[id].first.x, movesMemory[id].first.y);
 		solutionPart.push_back(movesMemory[id].first);
 		id = movesMemory[id].second;
 	}
@@ -158,7 +163,7 @@ void BoardGenerator::generateRandomBoard() {
 		do {
 			x = rand() % this->size;
 			y = rand() % this->size;
-		} while (tmp = this->initialBoard->getFieldAt(x, y) != 0);
+		} while ((tmp = this->initialBoard->getFieldAt(x, y)) != 0);
 		
 		int x2, y2;
 		do {
@@ -219,10 +224,8 @@ void BoardGenerator::generateMovesBoard (int movesQty) {
 void BoardGenerator::generateSolvedBoard() {
 	this->reset();
 	
-	for (int i = 0; i < this->size * this->size - 1; ++i) {
-		qDebug("SolvedBoard %d %d: %d", i % this->size, i / this->size, i + 1 );
+	for (int i = 0; i < this->size * this->size - 1; ++i)
 		this->initialBoard->setFieldAt(Point(i % this->size, i / this->size), i + 1);
-	}
 	
 	this->initialBoard->setFieldAt(Point(this->size - 1, this->size - 1), 0);
 }
