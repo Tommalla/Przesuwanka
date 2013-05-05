@@ -82,32 +82,31 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 	while (!s.empty() && best.g == INT_MAX) {
 		v = *s.begin();
 		s.erase(s.begin());
-		
-		//assert(!prevStates.contains(v.board->getHash()));
-		
 		//qDebug("Wierzchołek w odległości %d od źródła.", v.g + 1);
 		
 		moves = v.board->getMoves();
 		for (vector<Point>::iterator iter = moves.begin(); iter != moves.end(); ++iter) {
 			u.board = new Board(*v.board);
 			
+			u.g = v.g + 1;
 			//przygotowywujemy planszę po ruchu
 			Point field = *iter;
-			Point move = u.board->getFreeFieldAround(field);
-			u.board->setFieldAt(field + move, u.board->getFieldAt(field.x, field.y));
-			u.board->setFieldAt(field, 0);
-			u.g = v.g + 1;
-			u.f = u.g + 3 * u.board->getManhattanMetricValue(level);
 			
-			if (u.g > aStarMaxDistance /*|| (level == 1 && u.g > 40)*/ || u.g > best.g /*|| field.y < level - (level == this->size ? 2 : 1)*/ ) {
+			if (u.g > aStarMaxDistance /*|| (level == 1 && u.g > 40)*/ || u.g > best.g 
+				/*|| field.y < level - (level == this->size ? 2 : 1) */) {
 				delete u.board;
 				continue;
 			}
 			
-			//qDebug("Hash: %s",  u.board->getHash().toStdString().c_str());
+			//przygotowywujemy planszę po ruchu
+			Point move = u.board->getFreeFieldAround(field);
+			u.board->setFieldAt(field + move, u.board->getFieldAt(field.x, field.y));
+			u.board->setFieldAt(field, 0);
 			
-			if (!prevStates.contains(u.board->getHash())) {	//jeśli nie ma powtórzenia
 
+			//qDebug("Hash: %s",  u.board->getHash().toStdString().c_str());
+			if (!prevStates.contains(u.board->getHash())) {	//jeśli nie ma powtórzenia
+				u.f = u.g + 3 * u.board->getManhattanMetricValue(level);
 				
 				movesMemory.push_back(make_pair(field, v.prevMoveId));
 				u.prevMoveId = movesMemory.size() - 1;
