@@ -74,6 +74,7 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 	
 	best.g = INT_MAX;
 	best.board = NULL;
+	best.prevMoveId = 0;
 	
 	s.insert(v);
 	prevStates.insert(v.board->getHash());
@@ -138,6 +139,8 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 		delete s.begin()->board;
 		s.erase(s.begin());
 	}
+	
+	assert(best.g != INT_MAX);
 	
 	int id = best.prevMoveId;
 	
