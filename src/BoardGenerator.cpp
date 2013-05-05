@@ -53,10 +53,7 @@ void BoardGenerator::calculateSolution() {
 		qDebug("Plansza po A*:");
 		qDebug(solved.toQString().toStdString().c_str());
 	}
-	
-	qDebug("Rozwiązanie:");
-	for (int i = 0; i < this->solution.size(); ++i)
-		printf("%d %d", solution[i].x, solution[i].y);
+
 }
 
 Board BoardGenerator::aStar (const int level, const Board board) {
