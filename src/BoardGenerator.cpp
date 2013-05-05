@@ -38,8 +38,14 @@ void BoardGenerator::calculateSolution() {
 	this->solution.clear();
 	Board solved = *this->initialBoard;
 	
-	for (int i = 1; i <= this->size; ++i)
+	qDebug("Pierwotna plansza:");
+	qDebug(solved.toQString().toStdString().c_str());
+	
+	for (int i = 1; i <= this->size; ++i) {
 		solved = this->aStar(i, solved);
+		qDebug("Plansza po A*:");
+		qDebug(solved.toQString().toStdString().c_str());
+	}
 	
 	qDebug("Rozwiązanie:");
 	for (int i = 0; i < this->solution.size(); ++i)

@@ -118,3 +118,14 @@ bool Board::isSolved(const int rows) const {
 const QString Board::getHash() {
 	return this->board->getHash();
 }
+
+QString Board::toQString() {
+	QString res ="";
+	
+	for (int y = 0; y < this->size; ++y, res += "\n") 
+		for (int x = 0; x < this->size; ++x)
+			res += QString::number(this->getFieldAt(x, y)) + " ";
+		
+	return res;
+}
+

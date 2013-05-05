@@ -49,6 +49,8 @@ class Board {
 		
 		~Board();
 		Board& operator=(const Board &b);
+		//debug:
+		QString toQString();
 };
 
 #endif // BOARD_H
