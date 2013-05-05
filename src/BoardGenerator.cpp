@@ -85,7 +85,7 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 		
 		//assert(!prevStates.contains(v.board->getHash()));
 		
-		//qDebug("Wierzchołek w odległości %d od źródła.", v.g + 1);
+		qDebug("Wierzchołek w odległości %d od źródła.", v.g + 1);
 		
 		moves = v.board->getMoves();
 		for (vector<Point>::iterator iter = moves.begin(); iter != moves.end(); ++iter) {
@@ -96,19 +96,18 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 			Point move = u.board->getFreeFieldAround(field);
 			u.board->setFieldAt(field + move, u.board->getFieldAt(field.x, field.y));
 			u.board->setFieldAt(field, 0);
+			u.g = v.g + 1;
+			u.f = u.g + u.board->getManhattanMetricValue(level);
+			
+			if (u.g > aStarMaxDistance /*|| (level == 1 && u.g > 40)*/ || u.g > best.g || field.y < level - (level == this->size ? 2 : 1) ) {
+				delete u.board;
+				continue;
+			}
 			
 			//qDebug("Hash: %s",  u.board->getHash().toStdString().c_str());
 			
 			if (!prevStates.contains(u.board->getHash())) {	//jeśli nie ma powtórzenia
-				u.g = v.g + 1;
-				u.f = u.g + u.board->getManhattanMetricValue(level);
-				
-				if (u.g > aStarMaxDistance || u.g > best.g /*|| (v.prevMoveId != -1 && movesMemory[v.prevMoveId].first ==
-					
-				)*/) {
-					delete u.board;
-					continue;
-				}
+
 				
 				movesMemory.push_back(make_pair(field, v.prevMoveId));
 				u.prevMoveId = movesMemory.size() - 1;
@@ -200,7 +199,7 @@ bool BoardGenerator::isBoardSolvable() {
 void BoardGenerator::generateMovesBoard (int movesQty) {
 	this->generateSolvedBoard();
 	vector<Point> moves;
-	QSet<QString> states;
+	//QSet<QString> states;
 	
 	while (movesQty--) {
 		moves.clear();
@@ -218,16 +217,16 @@ void BoardGenerator::generateMovesBoard (int movesQty) {
 		initialBoard->setFieldAt(dst, initialBoard->getFieldAt(moves[id].x, moves[id].y));
 		initialBoard->setFieldAt(moves[id], 0);
 		
-		//nie chcemy powtórzeń:
-		if (states.contains(initialBoard->getHash())) {
-			swap(dst, moves[id]);
-			dst = initialBoard->getFreeFieldAround(moves[id]) + moves[id];
-			qDebug("Cofanie ruchu: %d %d -> %d %d",  moves[id].x, moves[id].y, dst.x, dst.y);
-			initialBoard->setFieldAt(dst, initialBoard->getFieldAt(moves[id].x, moves[id].y));
-			initialBoard->setFieldAt(moves[id], 0);
-			++movesQty;
-		} else
-			states.insert(initialBoard->getHash());
+// 		//nie chcemy powtórzeń:
+// 		if (states.contains(initialBoard->getHash())) {
+// 			swap(dst, moves[id]);
+// 			dst = initialBoard->getFreeFieldAround(moves[id]) + moves[id];
+// 			qDebug("Cofanie ruchu: %d %d -> %d %d",  moves[id].x, moves[id].y, dst.x, dst.y);
+// 			initialBoard->setFieldAt(dst, initialBoard->getFieldAt(moves[id].x, moves[id].y));
+// 			initialBoard->setFieldAt(moves[id], 0);
+// 			++movesQty;
+// 		} else
+// 			states.insert(initialBoard->getHash());
 	}
 	
 	assert(this->isBoardSolvable());
