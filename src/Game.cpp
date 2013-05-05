@@ -100,6 +100,11 @@ const Point Game::getPos (const int number) {
 	return board->getPos(number);
 }
 
+const vector< Point > Game::getAvailableMoves() {
+	return this->board->getMoves();
+}
+
+
 
 void Game::reset(const GameState state) {
 	delete this->board;

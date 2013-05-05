@@ -21,6 +21,7 @@ class GameHandler : public QObject {
 		GameState state;
 		
 		void resetTiles();
+		void makeMove(const Point field, const MoveType type);
 	public:
 		GameHandler(QGraphicsView* graphicsView);
 		
@@ -33,6 +34,11 @@ class GameHandler : public QObject {
 		void repaintTiles();
 		void registerMove();
 		void undoLastMove();
+		/**
+		 * @brief Wykonuje ruch zgodny z podanym wektorem
+		 * @param move Wektor ruchu
+		 **/
+		void makePossibleMove(const Point move);
 		
 		const GameState getState();
 		void pauseSolution();

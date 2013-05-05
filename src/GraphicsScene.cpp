@@ -2,6 +2,7 @@
 All rights reserved */
 #include <cstdio>
 #include <QGraphicsSceneEvent>
+#include <QKeyEvent>
 #include <cassert>
 
 #include "GraphicsScene.h"
@@ -9,9 +10,51 @@ All rights reserved */
 #include "GraphicsTile.h"
 #include "GameHandler.h"
 
-void GraphicsScene::keyReleaseEvent (QKeyEvent* event) {
-	QGraphicsScene::keyReleaseEvent (event);
-	qDebug("TODO: Strzałki");
+void GraphicsScene::keyPressEvent (QKeyEvent* event) {
+	//QGraphicsScene::keyPressEvent (event);
+	qDebug("Key press!");
+	Point move;
+	switch (event->key()) {
+		case Qt::Key_Up:
+			move = Point(0, -1);
+			break;
+		case Qt::Key_Down:
+			move = Point(0, 1);
+			break;
+		case Qt::Key_Right:
+			if (this->parent->getState() != PLAYING) {
+				this->parent->nextSolutionMove();
+				return;
+			}
+			move = Point(1, 0);
+			break;
+		case Qt::Key_Left:
+			if (this->parent->getState() != PLAYING) {
+				this->parent->undoLastMove();
+				return;
+			}
+			move = Point(-1, 0);
+			break;
+		case Qt::Key_Backspace:
+			this->parent->undoLastMove();
+			return;
+		case Qt::Key_Space:
+			switch (this->parent->getState()) {
+				case SHOWING_SOLUTION:
+					emit this->pauseSolution();
+					return;
+				case SHOWING_PAUSED:
+					emit this->resumeSolution();
+					return;
+				default:
+					return;
+			}
+		default:
+			return;
+	}
+	
+	if (this->parent->getState() == PLAYING)
+		parent->makePossibleMove(move);
 }
 
 void GraphicsScene::mousePressEvent (QGraphicsSceneMouseEvent* event) {

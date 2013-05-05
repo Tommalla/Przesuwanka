@@ -14,7 +14,7 @@ class GraphicsScene : public QGraphicsScene {
 	private:
 		GameHandler* parent;
 	protected:
-		virtual void keyReleaseEvent (QKeyEvent* event);
+		virtual void keyPressEvent (QKeyEvent* event);
 		virtual void mousePressEvent (QGraphicsSceneMouseEvent* event);
 		virtual void mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event);
 	public:

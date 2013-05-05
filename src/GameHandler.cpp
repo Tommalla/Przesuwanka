@@ -10,6 +10,15 @@ void GameHandler::resetTiles() {
 		(*iter)->syncWithGame();
 }
 
+void GameHandler::makeMove (const Point field, const MoveType type) {
+	for (vector<GraphicsTile*>::iterator iter = this->tiles.begin(); iter != this->tiles.end(); ++iter) {
+		if ((*iter)->getRelativePosition() == field) {
+			(*iter)->makeMove(type);
+			return;
+		}
+	}
+}
+
 GameHandler::GameHandler(QGraphicsView* graphicsView) {
 	this->graphicsView = graphicsView;
 	
@@ -88,12 +97,20 @@ void GameHandler::undoLastMove() {
 	
 	qDebug("GameHandler::undoLastMove: %d %d", last.x, last.y);
 
-	for (vector<GraphicsTile*>::iterator iter = this->tiles.begin(); iter != this->tiles.end(); ++iter) {
-		if ((*iter)->getRelativePosition() == last) {
-			(*iter)->makeMove(UNDO);
+	this->makeMove(last, UNDO);
+}
+
+void GameHandler::makePossibleMove (const Point move) {
+	assert(move == Point(1, 0) || move == Point(0, 1) || move == Point(-1, 0) || move == Point(0, -1));
+	vector<Point> moves = Game::getInstance().getAvailableMoves();
+	Point tmp;
+	
+	for (vector<Point>::iterator iter = moves.begin(); iter != moves.end(); ++iter)
+		if (Game::getInstance().getMoveFor(*iter) == move) {
+			qDebug("makePossibleMove: %d %d + %d %d", (*iter).x, (*iter).y, move.x, move.y);
+			this->makeMove(*iter, NORMAL);
 			return;
 		}
-	}
 }
 
 
