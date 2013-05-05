@@ -79,14 +79,25 @@ void MainWindow::newGame() {
 }
 
 void MainWindow::reactToMove() {
-	this->statusBar()->showMessage("Ilość ruchów: " + QString::number(Game::getInstance().getMovesCount()));
+	QString prev;
+	
+	if (this->gameHandler->getState() == PLAYING || this->gameHandler->getState() == FINISHED)
+		prev = "";
+	else
+		prev = "Wyświetlanie rozwiązania: ";
+	
+	this->statusBar()->showMessage(prev + "Ilość ruchów: " + QString::number(Game::getInstance().getMovesCount()));
 	
 	if (Game::getInstance().isGameFinished()) {
-		QMessageBox msgBox;
-		msgBox.setWindowTitle("Wygrana!");
-		msgBox.setText(QString("Wygrałeś w ") + Game::getInstance().getMovesCount() + " ruchach!");
-		this->ui->GraphicsView->setEnabled(false);
-		msgBox.exec();
+		if (this->gameHandler->getState() == PLAYING || this->gameHandler->getState() == FINISHED) {
+			QMessageBox msgBox;
+			msgBox.setWindowTitle("Wygrana!");
+			msgBox.setText(QString("Wygrałeś w ") + Game::getInstance().getMovesCount() + " ruchach!");
+			this->ui->GraphicsView->setEnabled(false);
+			msgBox.exec();
+		} else {
+			this->solutionTimer.stop();
+		}
 	}
 }
 

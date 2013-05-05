@@ -95,9 +95,12 @@ void GameHandler::nextSolutionMove() {
 	qDebug("Wybity kolejny ruch z rozwiązania!");
 	
 	Point move = Game::getInstance().getNextSolutionMove();
+	qDebug("Kolejny ruch: %d %d", move.x, move.y);
 	for(vector<GraphicsTile*>::iterator iter = this->tiles.begin(); iter != this->tiles.end(); ++iter)
 		if ((*iter)->getRelativePosition() == move) {
 			(*iter)->moveTile(Game::getInstance().getMoveFor(move));
+			Game::getInstance().makeMove(move);
+			this->registerMove();
 			return;
 		}
 }
