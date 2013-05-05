@@ -82,13 +82,14 @@ void MainWindow::newGame() {
 
 void MainWindow::reactToMove() {
 	QString prev;
+	QString post = (Game::getInstance().isGameFinished()) ? " Plansza ułożona!" : "";
 	
 	if (this->gameHandler->getState() == PLAYING || this->gameHandler->getState() == FINISHED)
 		prev = "";
 	else
 		prev = "Wyświetlanie rozwiązania: ";
 	
-	this->statusBar()->showMessage(prev + "Ilość ruchów: " + QString::number(Game::getInstance().getMovesCount()));
+	this->statusBar()->showMessage(prev + "Ilość ruchów: " + QString::number(Game::getInstance().getMovesCount()) + post);
 	
 	if (Game::getInstance().isGameFinished()) {
 		if (this->gameHandler->getState() == PLAYING || this->gameHandler->getState() == FINISHED) {
@@ -100,6 +101,7 @@ void MainWindow::reactToMove() {
 		} else {
 			this->solutionTimer.stop();
 		}
+		
 	}
 }
 
