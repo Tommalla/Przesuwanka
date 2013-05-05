@@ -95,7 +95,7 @@ void MainWindow::reactToMove() {
 		if (this->gameHandler->getState() == PLAYING || this->gameHandler->getState() == FINISHED) {
 			QMessageBox msgBox;
 			msgBox.setWindowTitle("Wygrana!");
-			msgBox.setText(QString("Wygrałeś w ") + Game::getInstance().getMovesCount() + " ruchach!");
+			msgBox.setText(QString("Wygrałeś w ") + QString::number(Game::getInstance().getMovesCount()) + " ruchach!");
 			this->ui->GraphicsView->setEnabled(false);
 			msgBox.exec();
 		} else {

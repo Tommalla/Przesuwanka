@@ -89,6 +89,9 @@ void GameHandler::registerMove() {
 }
 
 void GameHandler::undoLastMove() {
+	if (this->state == FINISHED)
+		return;	//FAILSAFE
+	
 	Point last = Game::getInstance().getLastMoved();
 	if (last == Point(-1, -1)) {
 		qDebug("Próba cofnięcia ruchu przy pustej kolejce!");
@@ -126,6 +129,8 @@ GameHandler::~GameHandler() {
 void GameHandler::makeNextSolutionMove() {
 	assert(this->state != PLAYING);
 	
+	if (Game::getInstance().isGameFinished())
+		return;	//FAILSAFE
 	qDebug("Wybity kolejny ruch z rozwiązania!");
 	
 	Point move = Game::getInstance().getNextSolutionMove();
