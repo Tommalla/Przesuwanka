@@ -6,6 +6,7 @@ All rights reserved */
 #include <QGraphicsPixmapItem>
 #include <QPropertyAnimation>
 #include "Point.h"
+#include "enums.h"
 
 class GameHandler;
 
@@ -24,6 +25,7 @@ class GraphicsTile : public QObject, public QGraphicsPixmapItem {
 		void generatePixmap();
 		const Point getRelativePosition();
 		void mousePressEvent (QGraphicsSceneMouseEvent * event);
+		void makeMove(const MoveType type);
 		void moveTile(const Point move);
 		/**
 		 * @brief Zmienia położenie płytki na takie jak w grze

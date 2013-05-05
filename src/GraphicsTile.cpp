@@ -17,16 +17,16 @@ const Point GraphicsTile::getRelativePosition() {
 void GraphicsTile::mousePressEvent (QGraphicsSceneMouseEvent* event) {
 	Point move;
 	
-	if (parent->getState() == SHOWING_SOLUTION || parent->getState() == SHOWING_PAUSED) {
-		//qDebug("TODO: Showing solution in tile");
-		move = Game::getInstance().getNextSolutionMove();
-		qDebug("Next solution move! %d %d", move.x, move.y);
-		//return;
-	}
+// 	if (parent->getState() == SHOWING_SOLUTION || parent->getState() == SHOWING_PAUSED) {
+// 		//qDebug("TODO: Showing solution in tile");
+// // 		move = Game::getInstance().getNextSolutionMove();
+// 		qDebug("Next solution move! %d %d", move.x, move.y);
+// 		//return;
+// 	}
 	
 	if (event->button() == Qt::LeftButton) {
 		if (Game::getInstance().isMoveValid(this->relativePosition))
-			move = Game::getInstance().makeMove(this->relativePosition);
+			this->makeMove(NORMAL);//move = Game::getInstance().makeMove(this->relativePosition);
 		else {
 			qDebug("Niepoprawny ruch!");
 			return;
@@ -39,12 +39,27 @@ void GraphicsTile::mousePressEvent (QGraphicsSceneMouseEvent* event) {
 			event->ignore();
 			return;
 		}
-		move = Game::getInstance().undoLastMove();
+		this->makeMove(UNDO);
+		//move = Game::getInstance().undoLastMove();
 	} else
 		return;
 	
-	this->moveTile(move);
+	//this->moveTile(move);
 	
+}
+
+void GraphicsTile::makeMove (const MoveType type) {
+	Point move;
+	switch (type) {
+		case NORMAL:
+			move = Game::getInstance().makeMove(this->relativePosition);
+			break;
+		case UNDO:
+			move = Game::getInstance().undoLastMove();
+			break;
+	}
+	
+	this->moveTile(move);
 }
 
 void GraphicsTile::moveTile (const Point move) {
