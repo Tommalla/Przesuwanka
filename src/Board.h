@@ -44,7 +44,7 @@ class Board {
 		 **/
 		const int getManhattanMetricValue(const int row) const;
 		
-		bool isSolved(const int rows) const;
+		bool isSolved(const int rows, const int col) const;
 		const QString getHash();
 		
 		~Board();

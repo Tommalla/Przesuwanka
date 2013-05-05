@@ -135,7 +135,7 @@ int Game::getMovesCount() {
 
 bool Game::isGameFinished() {
 	if (this->gameInProgress)
-		return !(this->gameInProgress = !board->isSolved(this->size));
+		return !(this->gameInProgress = !board->isSolved(this->size, this->size));
 	
 	return true;
 }

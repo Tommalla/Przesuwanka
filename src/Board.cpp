@@ -106,9 +106,10 @@ const Point Board::getPos (const int number) {
 
 
 
-bool Board::isSolved(const int rows) const {
+bool Board::isSolved(const int rows, const int col) const {
 	for (int i = 0; i < rows * this->size; ++i)
-		if (i != this->size * this->size - 1 && this->getFieldAt(i % this->size, i / this->size) != i + 1)
+		if (i != this->size * this->size - 1 && (rows != this->size || i / this->size < rows - 2 || i % this->size < col) &&
+			this->getFieldAt(i % this->size, i / this->size) != i + 1)
 			return false;
 	
 	return true;

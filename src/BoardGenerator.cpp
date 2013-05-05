@@ -42,22 +42,29 @@ void BoardGenerator::calculateSolution() {
 	qDebug(solved.toQString().toStdString().c_str());
 	
 	for (int i = 1; i <= this->size - 2; ++i) 
-		if (!solved.isSolved(i) ) {
-			solved = this->aStar(i, solved);
+		if (!solved.isSolved(i, this->size) ) {
+			solved = this->aStar(i, this->size, solved);
 			qDebug("Plansza po A*:");
 			qDebug(solved.toQString().toStdString().c_str());
 		}
 		
-	if (!solved.isSolved(this->size) ) {
-		solved = this->aStar(this->size, solved);
+	for (int i = 1; i < 2; ++i)
+	if (!solved.isSolved(this->size, i) ) {
+		solved = this->aStar(this->size, i, solved);
+		qDebug("Plansza po A*:");
+		qDebug(solved.toQString().toStdString().c_str());
+	}
+	
+	if (!solved.isSolved(this->size, this->size) ) {
+		solved = this->aStar(this->size, this->size, solved);
 		qDebug("Plansza po A*:");
 		qDebug(solved.toQString().toStdString().c_str());
 	}
 
 }
 
-Board BoardGenerator::aStar (const int level, const Board board) {
-	qDebug("BoardGenerator::aStar(%d)", level);
+Board BoardGenerator::aStar (const int level, const int sublevel, const Board board) {
+	qDebug("BoardGenerator::aStar(%d, %d)", level, sublevel);
 	QSet<QString> prevStates;	//poprzednie stany planszy, bo nie chcemy pętlii można szybko sprawdzić
 	set<AStarNode, setCmp> s;
 	vector<pair<Point, int> > movesMemory;
@@ -109,7 +116,7 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 				movesMemory.push_back(make_pair(field, v.prevMoveId));
 				u.prevMoveId = movesMemory.size() - 1;
 				
-				if (u.board->isSolved(level)) {
+				if (u.board->isSolved(level, sublevel)) {
 					qDebug("Znaleziono rozwiązanie! Ilość ruchów: %d", v.g + 1);
 					//TODO szukać więcej niż do pierwszego
 					if (best.g > u.g) {
