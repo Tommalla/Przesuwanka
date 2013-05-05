@@ -13,6 +13,12 @@ const QString HELP_MESSAGE = QString("<center> Ktoś był na tyle \"sprytny\", �
 	QString("którym liczby będą kolejno uporządkowane wierszami.<br/>Więcej szczegółów: ") +
 	QString("<a href=\"http://pl.wikipedia.org/wiki/Piętnastka_(układanka)\">Wikipedia</a><br/></center>Klawiszologia:<br/>");
 	
+const QString SOLUTION_MSG = QString("Tryb pokazywania rozwiązania:<br/><b>Spacja</b> - Pauzuj/Kontynuuj Animację<br/>") +
+	QString("<b>1 x LPM</b> - Pazuj animację/kolejny krok animacji<br/>") +
+	QString("<b>1 x PPM</b> - Poprzedni krok pauzowanej animacji<br/>") +
+	QString("<b>2 x LPM</b> - Wznów animację<br/>") +
+	QString("<b>Strzałki lewo/prawo</b> - przewijanie pauzowanej animacji");
+	
 const int boardSize = 4;
 const int animationTime = 100;
 const int solutionTimerInterval = 500;

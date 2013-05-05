@@ -108,7 +108,7 @@ void MainWindow::showSolution() {
 	
 	QMessageBox msgBox;
 	msgBox.setWindowTitle("Pokazywanie rozwiązania");
-	msgBox.setText("bla BLA BLA TODO");
+	msgBox.setText(SOLUTION_MSG);
 	msgBox.exec();
 	
 	this->resumeSolution();
