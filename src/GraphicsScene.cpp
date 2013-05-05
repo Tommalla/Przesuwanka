@@ -15,31 +15,36 @@ void GraphicsScene::keyReleaseEvent (QKeyEvent* event) {
 }
 
 void GraphicsScene::mousePressEvent (QGraphicsSceneMouseEvent* event) {
-	if (parent->getState() == SHOWING_SOLUTION || parent->getState() == SHOWING_PAUSED ) {
-		qDebug("TODO: Showing playout (scene)");
+	if (parent->getState() == SHOWING_SOLUTION) {
+		if (event->button() == Qt::LeftButton) {
+			emit this->pauseSolution();
+			qDebug("Scene: Pauza");
+		}
 		return;
 	}
 	
+// 	if (parent->getState() == SHOWING_PAUSED)
+// 		return;	//TODO generowanie rozwiązania w tle
 	qDebug("mousePress at Scene");
 	
-	if (event->button() == Qt::RightButton) {
-		qDebug("RightButton at Scene");
-		Point last = Game::getInstance().getLastMoved();
-		if (last == Point(-1, -1)) {
-			qDebug("Próba cofnięcia ruchu przy pustej kolejce!");
-			return;
-		}
-		
-		GraphicsTile* it;
-		for (QList<QGraphicsItem *>::iterator iter = this->items().begin(); iter != this->items().end(); ++iter) {
-			it = dynamic_cast<GraphicsTile*>(*iter);
-			if (it != NULL && it->getRelativePosition() == last) {
-				it->mousePressEvent(event);
-				return;
-			}
-		}
-	} else if (event->button() == Qt::LeftButton)
-		QGraphicsScene::mousePressEvent(event);
+	if (event->button() == Qt::RightButton)
+		this->parent->undoLastMove();
+	else if (event->button() == Qt::LeftButton) {
+		if (this->parent->getState() == PLAYING)
+			QGraphicsScene::mousePressEvent(event);
+		else
+			this->parent->nextSolutionMove();
+	}
+}
+
+void GraphicsScene::mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event) {
+	//QGraphicsScene::mouseDoubleClickEvent (event);
+	if (event->buttons() == Qt::LeftButton && this->parent->getState() == SHOWING_PAUSED) {
+		qDebug("Resume!");
+		emit this->resumeSolution();
+	}
+	
+	qDebug("dblClk");
 }
 
 GraphicsScene::GraphicsScene (GameHandler* parent) : QGraphicsScene() {

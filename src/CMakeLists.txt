@@ -12,11 +12,13 @@ set (GUI_HEADERS
 
 set (MOC_SOURCES
 	GameHandler.cpp
+	GraphicsScene.cpp
 	GraphicsTile.cpp
 )
 
 set (MOC_HEADERS
 	GameHandler.h
+	GraphicsScene.h
 	GraphicsTile.h
 )
 
@@ -27,7 +29,7 @@ set (SOURCES
 	BitContainer.cpp
 	BoardGenerator.cpp
 	Game.cpp
-	GraphicsScene.cpp
+	#GraphicsScene.cpp
 )
 
 set (HEADERS
@@ -38,7 +40,7 @@ set (HEADERS
 	BitContainer.h
 	BoardGenerator.h
 	Game.h
-	GraphicsScene.h
+	#GraphicsScene.h
 )
 
 set (FORMS

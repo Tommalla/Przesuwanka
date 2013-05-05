@@ -10,7 +10,6 @@ void GameHandler::resetTiles() {
 		(*iter)->syncWithGame();
 }
 
-
 GameHandler::GameHandler(QGraphicsView* graphicsView) {
 	this->graphicsView = graphicsView;
 	
@@ -80,6 +79,24 @@ void GameHandler::registerMove() {
 		qDebug("Wygrana!");
 }
 
+void GameHandler::undoLastMove() {
+	Point last = Game::getInstance().getLastMoved();
+	if (last == Point(-1, -1)) {
+		qDebug("Próba cofnięcia ruchu przy pustej kolejce!");
+		return;
+	}
+	
+	qDebug("GameHandler::undoLastMove: %d %d", last.x, last.y);
+
+	for (vector<GraphicsTile*>::iterator iter = this->tiles.begin(); iter != this->tiles.end(); ++iter) {
+		if ((*iter)->getRelativePosition() == last) {
+			(*iter)->makeMove(UNDO);
+			return;
+		}
+	}
+}
+
+
 const GameState GameHandler::getState() {
 	return state;
 }
@@ -104,6 +121,16 @@ void GameHandler::nextSolutionMove() {
 			return;
 		}
 }
+
+void GameHandler::pauseSolution() {
+	this->state = SHOWING_PAUSED;
+}
+
+void GameHandler::resumeSolution() {
+	this->state = SHOWING_SOLUTION;
+}
+
+
 
 
 

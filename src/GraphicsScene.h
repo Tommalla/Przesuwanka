@@ -10,14 +10,18 @@ All rights reserved */
 class GameHandler;
 
 class GraphicsScene : public QGraphicsScene {
-	//QOBJECT;
+	Q_OBJECT;
 	private:
 		GameHandler* parent;
 	protected:
 		virtual void keyReleaseEvent (QKeyEvent* event);
-		virtual void mousePressEvent (QGraphicsSceneMouseEvent * event);
+		virtual void mousePressEvent (QGraphicsSceneMouseEvent* event);
+		virtual void mouseDoubleClickEvent (QGraphicsSceneMouseEvent* event);
 	public:
 		GraphicsScene (GameHandler* parent);
+	signals:
+		void pauseSolution();
+		void resumeSolution();
 };
 
 #endif // GRAPHICSSCENE_H

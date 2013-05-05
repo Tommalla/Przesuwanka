@@ -32,8 +32,11 @@ class GameHandler : public QObject {
 		const int getSize() const;
 		void repaintTiles();
 		void registerMove();
+		void undoLastMove();
 		
 		const GameState getState();
+		void pauseSolution();
+		void resumeSolution();
 		~GameHandler();
 	signals:
 		void moveMade();

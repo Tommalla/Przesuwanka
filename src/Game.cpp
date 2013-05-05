@@ -31,26 +31,33 @@ const Point Game::makeMove (const Point& move) {
 	board->setFieldAt(move, 0);
 	board->setFieldAt(move + res, tmp);
 
-	if (this->state == PLAYING)
-		this->movesHistory.push_back(move + res);
-	else
+	if (this->state != PLAYING)
+		
+	//else
 		this->nextSolutionMove++;	//Założenie - jeśli ruch w trybie odtwarzania to 
 		//Game przewija ruchy
 
+	this->movesHistory.push_back(move + res);
 	this->movesCount++;
 	this->isGameFinished();
+	
+	qDebug("nextSolutionMove: %d", this->nextSolutionMove);
 
 	return res;
 }
 
 const Point Game::getLastMoved() {
-	if (this->state == PLAYING) {
+	//if (this->state == PLAYING) {
 		if (movesHistory.empty())
 			return Point(-1, -1);
 		return this->movesHistory.back(); 
-	}
+	//}
 	
-	return (this->nextSolutionMove == 0) ? Point(-1, -1) : this->solution[nextSolutionMove - 1];
+	//if (this->nextSolutionMove == 0)
+	//	return Point(-1, -1);
+	//Point tmp = this->getMoveFor(this->solution[nextSolutionMove - 1]);
+	//qDebug("%d %d + %d %d", this->solution[this->nextSolutionMove - 1].x, this->solution[this->nextSolutionMove - 1].y, tmp.x, tmp.y);
+	//return this->solution[this->nextSolutionMove - 1] + this->getMoveFor(this->solution[nextSolutionMove - 1]);
 }
 
 const Point Game::getNextSolutionMove() {
@@ -58,17 +65,28 @@ const Point Game::getNextSolutionMove() {
 	return this->solution[this->nextSolutionMove];
 }
 
-
 const Point Game::undoLastMove () {
-	Point dbgPoint = this->movesHistory.back();
-	qDebug("Undo move: %d %d ->", this->movesHistory.back().x, this->movesHistory.back().y);
-	assert(!movesHistory.empty());
+	//if (this->state == PLAYING)
+		assert(!movesHistory.empty());
+	//else
+		//assert(this->nextSolutionMove > 0);
+	
+	Point last = this->getLastMoved();
+	//Point dbgPoint = this->movesHistory.back();
+	qDebug("Undo move: %d %d ->", last.x, last.y);
 	
 	this->movesCount -= 2;
-	Point res = this->makeMove(this->movesHistory.back());
-	qDebug("%d %d", dbgPoint.x + res.x, dbgPoint.y + res.y);
+	Point res = this->makeMove(last);
+	qDebug("%d %d", last.x + res.x, last.y + res.y);
+	//if (this->state == PLAYING) {
 	movesHistory.pop_back();
 	movesHistory.pop_back();
+	
+	if (this->state != PLAYING)
+		this->nextSolutionMove -= 2;
+	
+	qDebug("nextSolutionMove: %d", this->nextSolutionMove);
+	//}
 	return res;
 }
 

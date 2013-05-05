@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	QObject::connect(this->gameHandler, SIGNAL(moveMade()), this, SLOT(reactToMove()));
 	QObject::connect(ui->ActionPokazRozwiazanie, SIGNAL(triggered()), this, SLOT(showSolution()));
 	QObject::connect(&this->solutionTimer, SIGNAL(timeout()), gameHandler, SLOT(nextSolutionMove()));
+	QObject::connect(this->gameHandler->getScene(), SIGNAL(pauseSolution()), this, SLOT(pauseSolution()));
+	QObject::connect(this->gameHandler->getScene(), SIGNAL(resumeSolution()), this, SLOT(resumeSolution()));
 	
 	solutionTimer.setInterval(solutionTimerInterval);
 	solutionTimer.setSingleShot(false);
@@ -109,8 +111,20 @@ void MainWindow::showSolution() {
 	msgBox.setText("bla BLA BLA TODO");
 	msgBox.exec();
 	
+	this->resumeSolution();
+	//this->solutionTimer.start();
+}
+
+void MainWindow::pauseSolution() {
+	this->solutionTimer.stop();
+	this->gameHandler->pauseSolution();
+}
+
+void MainWindow::resumeSolution() {
+	this->gameHandler->resumeSolution();
 	this->solutionTimer.start();
 }
+
 
 
 

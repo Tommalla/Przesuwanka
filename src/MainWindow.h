@@ -33,6 +33,8 @@ class MainWindow : public QMainWindow
 		void newGame();
 		void reactToMove();
 		void showSolution();
+		void pauseSolution();
+		void resumeSolution();
 
 };
 
