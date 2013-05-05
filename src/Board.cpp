@@ -80,12 +80,12 @@ const int Board::countInversions() const {
 }
 
 //TODO to też uzależnić od wierszy?
-const int Board::getManhattanMetricValue() const {
+const int Board::getManhattanMetricValue(const int row) const {
 	int res = 0;
 	for (int x = 0; x < this->size; ++x)
 		for (int y = 0; y < this->size; ++y) {
 			int elem = this->getFieldAt(x, y);
-			if (elem != 0) {
+			if (elem != 0 && elem <= (row + 1) * this->size) {
 				elem--;
 				res += abs(x - (elem % this->size));
 				res += abs(y - (elem / this->size));

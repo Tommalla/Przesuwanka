@@ -42,7 +42,7 @@ class Board {
 		/**
 		 * @brief Zwraca sumę odległości wszystkich klocków od ich docelowego położenia w metryce Manhattan
 		 **/
-		const int getManhattanMetricValue() const;
+		const int getManhattanMetricValue(const int row) const;
 		
 		bool isSolved(const int rows) const;
 		const QString getHash();

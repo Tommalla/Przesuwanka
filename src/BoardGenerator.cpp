@@ -55,7 +55,7 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 	
 	AStarNode v, u, best;
 	v.board = new Board(board);
-	v.f = v.board->getManhattanMetricValue();
+	v.f = v.board->getManhattanMetricValue(level);
 	v.g = 0;
 	v.prevMoveId = -1;
 	
@@ -88,7 +88,7 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 			
 			if (!prevStates.contains(u.board->getHash())) {	//jeśli nie ma powtórzenia
 				u.g = v.g + 1;
-				u.f = u.g + u.board->getManhattanMetricValue();
+				u.f = u.g + u.board->getManhattanMetricValue(level);
 				
 				if (u.g > aStarMaxDistance || u.g > best.g /*|| u.f - u.g > v.f - v.g*/) {
 					delete u.board;
@@ -126,14 +126,11 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 		s.erase(s.begin());
 	}
 	
-	qDebug("Pozostaje odzyskać rozwiązanie i posprzątać");
-	
 	int id = best.prevMoveId;
 	
 	vector<Point> solutionPart;
 	
 	while (id != -1) {
-		qDebug("Wewnątrz rozwiązania: %d %d\n", movesMemory[id].first.x, movesMemory[id].first.y);
 		solutionPart.push_back(movesMemory[id].first);
 		id = movesMemory[id].second;
 	}
