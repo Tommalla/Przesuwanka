@@ -18,9 +18,11 @@ void GraphicsScene::keyPressEvent (QKeyEvent* event) {
 		case Qt::Key_Up:
 			move = Point(0, -1);
 			break;
+			
 		case Qt::Key_Down:
 			move = Point(0, 1);
 			break;
+			
 		case Qt::Key_Right:
 			if (this->parent->getState() != PLAYING) {
 				this->parent->makeNextSolutionMove();
@@ -28,6 +30,7 @@ void GraphicsScene::keyPressEvent (QKeyEvent* event) {
 			}
 			move = Point(1, 0);
 			break;
+			
 		case Qt::Key_Left:
 			if (this->parent->getState() != PLAYING) {
 				this->parent->undoLastMove();
@@ -35,20 +38,25 @@ void GraphicsScene::keyPressEvent (QKeyEvent* event) {
 			}
 			move = Point(-1, 0);
 			break;
+			
 		case Qt::Key_Backspace:
 			this->parent->undoLastMove();
 			return;
+			
 		case Qt::Key_Space:
 			switch (this->parent->getState()) {
 				case SHOWING_SOLUTION:
 					emit this->pauseSolution();
 					return;
+					
 				case SHOWING_PAUSED:
 					emit this->resumeSolution();
 					return;
+					
 				default:
 					return;
 			}
+			
 		default:
 			return;
 	}
@@ -67,16 +75,16 @@ void GraphicsScene::mousePressEvent (QGraphicsSceneMouseEvent* event) {
 	}
 	
 // 	if (parent->getState() == SHOWING_PAUSED)
-// 		return;	//TODO generowanie rozwiązania w tle
+// 		return;	//TODO V2-MAYBE-PROBABLY-WONTFIX generowanie rozwiązania w tle
 	qDebug("mousePress at Scene");
 	
 	if (event->button() == Qt::RightButton)
 		this->parent->undoLastMove();
 	else if (event->button() == Qt::LeftButton) {
 		if (this->parent->getState() == PLAYING)
-			QGraphicsScene::mousePressEvent(event);
+			QGraphicsScene::mousePressEvent(event);	//Gra - przekierujemy event do tile'a
 		else
-			this->parent->makeNextSolutionMove();
+			this->parent->makeNextSolutionMove();	//pokazywanie rozwiązania - oddajemy event gameHandlerowi
 	}
 }
 

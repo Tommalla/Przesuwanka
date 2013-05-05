@@ -15,35 +15,24 @@ const Point GraphicsTile::getRelativePosition() {
 }
 
 void GraphicsTile::mousePressEvent (QGraphicsSceneMouseEvent* event) {
-	Point move;
 	
-// 	if (parent->getState() == SHOWING_SOLUTION || parent->getState() == SHOWING_PAUSED) {
-// 		//qDebug("TODO: Showing solution in tile");
-// // 		move = Game::getInstance().getNextSolutionMove();
-// 		qDebug("Next solution move! %d %d", move.x, move.y);
-// 		//return;
-// 	}
-	
-	if (event->button() == Qt::LeftButton && this->parent->getState() == PLAYING) {
+	if (event->button() == Qt::LeftButton && this->parent->getState() == PLAYING) {	//jeśli lewy przycisk i gra
 		if (Game::getInstance().isMoveValid(this->relativePosition))
-			this->makeMove(NORMAL);//move = Game::getInstance().makeMove(this->relativePosition);
+			this->makeMove(NORMAL);
 		else {
 			qDebug("Niepoprawny ruch!");
 			return;
 		}
-	} else if (event->button() == Qt::RightButton) {
+	} else if (event->button() == Qt::RightButton) {	//jeśli prawy - cofamy ruch niezależnie czy gra czy pokazywanie rozwiązania
 		qDebug("Right button at tile %d %d", this->relativePosition.x, this->relativePosition.y);
-		if (Game::getInstance().getLastMoved() == Point(-1, -1))
+		if (Game::getInstance().getLastMoved() == Point(-1, -1))	//nie ma co pokazać
 			return;
-		if (Game::getInstance().getLastMoved() != this->relativePosition) {
+		if (Game::getInstance().getLastMoved() != this->relativePosition) {	//Qt dało nam nieswojego eventa, odsyłamy do sceny
 			event->ignore();
 			return;
 		}
 		this->makeMove(UNDO);
-	} else
-		return;
-	
-	
+	}
 }
 
 void GraphicsTile::makeMove (const MoveType type) {
