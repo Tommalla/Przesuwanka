@@ -71,8 +71,13 @@ void GraphicsTile::generatePixmap() {
 	
 	painter.fillRect(QRect(0, 0, tileSize, tileSize), this->color);
 	QString text = QString::number(number);
-	//TODO center!
-	painter.drawText(tileSize / 2 - 6, tileSize / 2 + 4, text);
+
+	int fontSize = tileSize / 4;
+
+	QFont font;
+	font.setPixelSize(fontSize);
+	painter.setFont(font);
+	painter.drawText(0, 0, tileSize, tileSize, Qt::AlignCenter, text);
 	
 	this->setPixmap(pixmap);
 	this->setOffset(this->relativePosition.x * tileSize, this->relativePosition.y * tileSize);
@@ -90,9 +95,11 @@ GraphicsTile::GraphicsTile (GameHandler* parent, const int number, const Point r
 	this->number = number;
 	this->relativePosition = relativePosition;
 	
-	int r = rand() % 256;
-	int g = rand() % 256;
-	int b = rand() % 256;
+	int r = rand() % (256 - lowerColorLimit) + lowerColorLimit;
+	int g = rand() % (256 - lowerColorLimit) + lowerColorLimit;
+	int b = rand() % (256 - lowerColorLimit) + lowerColorLimit;
+	qDebug("%d %d %d", r, g, b);
+	
 	this->color = QColor(r, g, b);
 	
 	this->generatePixmap();

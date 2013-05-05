@@ -23,10 +23,15 @@ const QString SOLUTION_MSG = QString::fromUtf8(
 	QString("<b>2 x LPM</b> - Wznów animację<br/>") +
 	QString("<b>Strzałki lewo/prawo</b> - przewijanie pauzowanej animacji")).toStdString().c_str()
 	);
-	
+
+//GUI
 const int boardSize = 4;
+const int lowerColorLimit = 15;
 const int animationTime = 100;
 const int solutionTimerInterval = 500;
+
+//obliczanie rozwiązania
 const int aStarMaxDistance = 80;
+const int manhattanMetricMultiplier = 4;
 
 #endif
