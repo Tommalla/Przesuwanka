@@ -41,12 +41,18 @@ void BoardGenerator::calculateSolution() {
 	qDebug("Pierwotna plansza:");
 	qDebug(solved.toQString().toStdString().c_str());
 	
-	for (int i = 1; i <= this->size; ++i) 
+	for (int i = 1; i <= this->size - 2; ++i) 
 		if (!solved.isSolved(i) ) {
 			solved = this->aStar(i, solved);
 			qDebug("Plansza po A*:");
 			qDebug(solved.toQString().toStdString().c_str());
 		}
+		
+	if (!solved.isSolved(this->size) ) {
+		solved = this->aStar(this->size, solved);
+		qDebug("Plansza po A*:");
+		qDebug(solved.toQString().toStdString().c_str());
+	}
 	
 	qDebug("Rozwiązanie:");
 	for (int i = 0; i < this->solution.size(); ++i)
@@ -97,7 +103,9 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 				u.g = v.g + 1;
 				u.f = u.g + u.board->getManhattanMetricValue(level);
 				
-				if (u.g > aStarMaxDistance || u.g > best.g /*|| u.f - u.g > v.f - v.g*/) {
+				if (u.g > aStarMaxDistance || u.g > best.g /*|| (v.prevMoveId != -1 && movesMemory[v.prevMoveId].first ==
+					
+				)*/) {
 					delete u.board;
 					continue;
 				}
@@ -107,7 +115,7 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 				
 				if (u.board->isSolved(level)) {
 					qDebug("Znaleziono rozwiązanie! Ilość ruchów: %d", v.g + 1);
-					//TODO
+					//TODO szukać więcej niż do pierwszego
 					if (best.g > u.g) {
 						delete best.board;
 						best = u;
