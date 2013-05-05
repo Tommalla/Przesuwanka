@@ -48,7 +48,7 @@ void BoardGenerator::calculateSolution() {
 			qDebug(solved.toQString().toStdString().c_str());
 		}
 		
-	for (int i = 1; i < 2; ++i)
+	for (int i = 1; i < 3; ++i)
 	if (!solved.isSolved(this->size, i) ) {
 		solved = this->aStar(this->size, i, solved);
 		qDebug("Plansza po A*:");
@@ -174,7 +174,7 @@ void BoardGenerator::generateRandomBoard() {
 	for (int i = 0; i < this->size * this->size; ++i)
 		this->initialBoard->setFieldAt(Point(i % this->size, i / this->size), t[i]);
 	
-	if (!this->isBoardSolvable()) {
+	while (!this->isBoardSolvable()) {
 		qDebug("Correcting board!");
 		int x, y, tmp;
 		do {
@@ -195,7 +195,8 @@ void BoardGenerator::generateRandomBoard() {
 
 bool BoardGenerator::isBoardSolvable() {
 	int row = this->initialBoard->getPos(0).y;
-	row = this->size - row;
+	assert(row != -1);
+ 	row = this->size - row;
 	int inv = this->initialBoard->countInversions();
 	//( (grid width odd) && (#inversions even) )  ||  ( (grid width even) && ((blank on odd row from bottom) == (#inversions even)) )
 	return ((this->size % 2 == 1) && (inv % 2 == 0)) ||

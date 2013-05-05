@@ -39,6 +39,6 @@ const int solutionTimerInterval = 500;
 
 //obliczanie rozwiązania
 const int aStarMaxDistance = 80;
-const int manhattanMetricMultiplier = 4;
+const int manhattanMetricMultiplier = 3;
 
 #endif
