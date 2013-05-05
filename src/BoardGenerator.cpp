@@ -68,7 +68,7 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 	
 	AStarNode v, u, best;
 	v.board = new Board(board);
-	v.f = 3 * v.board->getManhattanMetricValue(level);
+	v.f = manhattanMetricMultiplier * v.board->getManhattanMetricValue(level);
 	v.g = 0;
 	v.prevMoveId = -1;
 	
@@ -107,7 +107,7 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 
 			//qDebug("Hash: %s",  u.board->getHash().toStdString().c_str());
 			if (!prevStates.contains(u.board->getHash())) {	//jeśli nie ma powtórzenia
-				u.f = u.g + 3 * u.board->getManhattanMetricValue(level);
+				u.f = u.g + manhattanMetricMultiplier * u.board->getManhattanMetricValue(level);
 				
 				movesMemory.push_back(make_pair(field, v.prevMoveId));
 				u.prevMoveId = movesMemory.size() - 1;
