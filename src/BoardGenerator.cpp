@@ -68,7 +68,7 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 	
 	AStarNode v, u, best;
 	v.board = new Board(board);
-	v.f = v.board->getManhattanMetricValue(level);
+	v.f = 3 * v.board->getManhattanMetricValue(level);
 	v.g = 0;
 	v.prevMoveId = -1;
 	
@@ -85,7 +85,7 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 		
 		//assert(!prevStates.contains(v.board->getHash()));
 		
-		qDebug("Wierzchołek w odległości %d od źródła.", v.g + 1);
+		//qDebug("Wierzchołek w odległości %d od źródła.", v.g + 1);
 		
 		moves = v.board->getMoves();
 		for (vector<Point>::iterator iter = moves.begin(); iter != moves.end(); ++iter) {
@@ -97,9 +97,9 @@ Board BoardGenerator::aStar (const int level, const Board board) {
 			u.board->setFieldAt(field + move, u.board->getFieldAt(field.x, field.y));
 			u.board->setFieldAt(field, 0);
 			u.g = v.g + 1;
-			u.f = u.g + u.board->getManhattanMetricValue(level);
+			u.f = u.g + 3 * u.board->getManhattanMetricValue(level);
 			
-			if (u.g > aStarMaxDistance /*|| (level == 1 && u.g > 40)*/ || u.g > best.g || field.y < level - (level == this->size ? 2 : 1) ) {
+			if (u.g > aStarMaxDistance /*|| (level == 1 && u.g > 40)*/ || u.g > best.g /*|| field.y < level - (level == this->size ? 2 : 1)*/ ) {
 				delete u.board;
 				continue;
 			}
