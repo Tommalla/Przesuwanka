@@ -107,16 +107,18 @@ const vector< Point > Game::getAvailableMoves() {
 
 
 void Game::reset(const GameState state) {
-	delete this->board;
-	this->board = new Board(this->boardGenerator.getInitialBoard());
-	this->movesCount = 0;
-	this->movesHistory.clear();
 	this->state = state;
 	this->gameInProgress = true;
 	
 	if (state == SHOWING_SOLUTION) {
+		this->boardGenerator.resetTo(this->board);
 		this->nextSolutionMove = 0;
 		this->solution = this->boardGenerator.getSolution();
+	} else {
+		delete this->board;
+		this->board = new Board(this->boardGenerator.getInitialBoard());
+		this->movesCount = 0;
+		this->movesHistory.clear();
 	}
 }
 

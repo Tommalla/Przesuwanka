@@ -106,13 +106,13 @@ void MainWindow::reactToMove() {
 }
 
 void MainWindow::showSolution() {
-	gameHandler->initializeSolutionShow();
 	
 	QMessageBox msgBox;
 	msgBox.setWindowTitle("Pokazywanie rozwiązania");
 	msgBox.setText(SOLUTION_MSG);
 	msgBox.exec();
 	
+	gameHandler->initializeSolutionShow();
 	this->resumeSolution();
 	//this->solutionTimer.start();
 }

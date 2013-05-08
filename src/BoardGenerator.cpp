@@ -277,7 +277,7 @@ void BoardGenerator::init (const GameType& type, int size) {
 			this->generateMovesBoard(this->hardBoardMoves);
 			break;
 	}
-	this->calculateSolution();
+	//this->calculateSolution();
 	this->initialized = true;
 }
 
@@ -299,3 +299,10 @@ BoardGenerator& BoardGenerator::operator= (const BoardGenerator& b) {
 	this->copyToSelf(b);
 	return *this;
 }
+
+void BoardGenerator::resetTo (Board* board) {
+	delete this->initialBoard;
+	this->initialBoard = new Board(*board);
+	this->calculateSolution();
+}
+
